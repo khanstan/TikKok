@@ -14,39 +14,132 @@
     @*Vue*@
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div id="app">
+        <header>
+            <section class="main-navbar-section">
+                <div class="container">
+                    <nav id="main-navbar" class="vnb fade-in" aria-label="Main Navigation">
+                        <div class="vnb__brand-image-wrapper">
+                            <a href="/Home" aria-current="page" class="vnb__brand-image-wrapper__link router-link-exact-active router-link-active" aria-label="Homepage">
+                                <img src="~/assets/logo.png" alt="brand-image" class="vnb-image vnb__brand-image-wrapper__link__image" title="" style="">
+                            </a>
+                        </div>
+
+                        <div class="vnb__menu-options vnb__menu-options--left">
+                            <a href="/Video/Upload">
+                                <div class="vnb__menu-options__option__link">
+                                    <img src="~/assets/takeVideoIcon.svg" height="35" width="35" />
+                                    Upload
+                                </div>
+                            </a>
+
+                            <a href="/Inbox">
+                                <div class="vnb__menu-options__option__link">
+                                    <img src="~/assets/inbox.png" height="27" width="27" />
+                                    Inbox
+                                </div>
+                            </a>
+
+                            <a href="/Followers">
+                                <div class="vnb__menu-options__option__link">
+                                    <img src="~/assets/followers.png" height="23" width="23" />
+                                    Followers
+                                </div>
+                            </a>
+
+                        </div>
+
+                        <div class="vnb__menu-options vnb__menu-options--right">
+                            <div class="vnb__menu-options__option">
+                                <a href="/Identity/Account/Register" class="vnb__menu-options__option__button vnb-button button-red" aria-label="Signup">
+                                    <!---->
+                                    Signup
+                                    <!---->
+                                </a>
+                            </div><div class="vnb__menu-options__option">
+                                <a href="/Identity/Account/Login" class="vnb__menu-options__option__button vnb-button" aria-label="Login">
+                                    <!---->
+                                    Login
+                                    <span class="vnb__menu-options__option__button__icon vnb__menu-options__option__button__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                </a>
+                            </div>
+                        </div>
+                        <button id="collapse" type="button" aria-expanded="false" class="vnb__collapse-button"><svg height="100pt" preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100" width="100pt" xmlns="http://www.w3.org/2000/svg" class="vnb__collapse-button__image" style="fill: rgb(102, 28, 35);"><title>Menu</title> <g transform="matrix(.1 0 0 -.1 0 100)"><path d="m0 850v-40h500 500v40 40h-500-500z"></path> <path d="m0 495v-45h500 500v45 45h-500-500z"></path> <path d="m0 140v-40h500 500v40 40h-500-500z"></path></g></svg></button>
+                        <div id="vnb__popup" class="vnb__popup" style="">
+                            <div class="vnb__popup__top">
+                                <img src="./assets/logo.png" alt="brand-image" class="vnb-image vnb__popup__top__image">
+                                <button id="vnb__popup__top__close-button__image" aria-label="Close Button" title="Close" aria-expanded="true" class="vnb__popup__top__close-button"><svg height="100pt" preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100" width="100pt" xmlns="http://www.w3.org/2000/svg" class="vnb__popup__top__close-button__image" style="fill: rgb(102, 28, 35);"><title>Close button</title> <path d="m42 967c-12-13-22-27-22-33 0-5 93-102 207-216l208-208-208-208c-114-114-207-214-207-223 0-8 11-26 25-39l26-24 214 214 215 215 215-215 214-214 26 24c14 13 25 28 25 34s-92 103-205 216-205 209-205 215 92 102 205 215 205 210 205 216c0 12-42 54-55 54-5 0-104-94-220-210l-210-210-210 210c-115 116-212 210-216 210-3 0-15-10-27-23z" transform="matrix(.1 0 0 -.1 0 100)"></path></svg></button>
+                            </div> <div class="vnb__popup__bottom">
+                                <!----> <ul class="vnb__popup__bottom__menu-options">
+                                    <li class="vnb__popup__bottom__menu-options__option">
+                                        <span class="vnb__popup__bottom__menu-options__option__link vnb__popup__bottom__menu-options__option__link--no-highlight">Why Dunder Mifflin</span> <div class="vnb__popup__bottom__sub-menu-options">
+                                            <div class="vnb__popup__bottom__sub-menu-options__option">
+                                                <a href="#/about" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="About">
+                                                    About
+                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text">Stupid corporate wet blankets. Like booze ever killed anyone.</span>
+                                                </a>
+                                            </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                                <a href="#/locations" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Locations">
+                                                    Locations
+                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text">You're a presentation tool!</span>
+                                                </a>
+                                            </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                                <a href="#/blog" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Blog">
+                                                    Blog
+                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text">I enjoy having breakfast in bed. I like waking up to the smell of bacon. Sue me.</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="vnb__popup__bottom__menu-options__option">
+                                        <span class="vnb__popup__bottom__menu-options__option__link vnb__popup__bottom__menu-options__option__link--no-highlight">Contact</span> <div class="vnb__popup__bottom__sub-menu-options">
+                                            <div class="vnb__popup__bottom__sub-menu-options__option">
+                                                <a href="#/customer-service" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Customer Service">
+                                                    Customer Service
+                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text"></span>
+                                                </a>
+                                            </div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                                <a href="#/accounting" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Accounting">
+                                                    Accounting
+                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text"></span>
+                                                </a>
+                                            </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                                <a href="#/reception" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Reception">
+                                                    Reception
+                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="vnb__popup__bottom__menu-options__option">
+                                        <a href="#/signup" class="vnb__popup__bottom__menu-options__option__link button-red" aria-label="Signup">
+                                            <!---->
+                                            Signup
+                                            <!---->
+                                        </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
+                                    </li>
+                                    <li class="vnb__popup__bottom__menu-options__option">
+                                        <a href="#/login" class="vnb__popup__bottom__menu-options__option__link" aria-label="Login">
+                                            <!---->
+                                            Login
+                                            <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                        </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </section>
+        </header>
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
+        <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @this.RenderBody()
+            </main>
+        </div>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
