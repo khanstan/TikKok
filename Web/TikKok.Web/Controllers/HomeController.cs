@@ -1,16 +1,32 @@
 ﻿namespace TikKok.Web.Controllers
 {
     using System.Diagnostics;
-
-    using TikKok.Web.ViewModels;
+    using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
+    using TikKok.Data;
+    using TikKok.Web.ViewModels;
+    using TikKok.Web.ViewModels.Home;
 
     public class HomeController : BaseController
     {
+        private readonly ApplicationDbContext db;
+
+        public HomeController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel
+            {
+                VideosCount = this.db.Videos.Count(),
+                TagsCount = this.db.Tags.Count(),
+                UsersCount = this.db.Users.Count(),
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

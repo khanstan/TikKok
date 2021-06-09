@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TikKok.Data.Common.Models;
-
-namespace TikKok.Data.Models
+﻿namespace TikKok.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    using TikKok.Data.Common.Models;
+
     public class Video : BaseDeletableModel<string>
     {
         public Video()
@@ -21,7 +21,13 @@ namespace TikKok.Data.Models
 
         public int Size { get; set; }
 
+        public string Extension { get; set; }
+
         public string Path { get; set; }
+
+        public int Likes { get; set; }
+
+        public int Shares { get; set; }
 
         public string UploaderId { get; set; }
 

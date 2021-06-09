@@ -1,4 +1,5 @@
 ﻿@using TikKok.Common
+@model TikKok.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
@@ -9,4 +10,8 @@
 </div>
 
 
-<hello-world></hello-world>
+<ul>
+    <li>Videos: @Model.VideosCount</li>
+    <li>Tags: @Model.TagsCount</li>
+    <li>Users: @Model.UsersCount</li>
+</ul>
