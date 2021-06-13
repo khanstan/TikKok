@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\TikKok.Data.Common\TikKok.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\TikKok.Data.Models\TikKok.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\TikKok.Web.ViewModels\TikKok.Web.ViewModels.csproj" />
     <ProjectReference Include="..\TikKok.Services.Mapping\TikKok.Services.Mapping.csproj" />
   </ItemGroup>
 
