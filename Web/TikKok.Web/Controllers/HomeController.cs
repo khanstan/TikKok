@@ -1,31 +1,36 @@
 ﻿namespace TikKok.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
-    using AutoMapper;
+
     using Microsoft.AspNetCore.Mvc;
-    using TikKok.Data;
     using TikKok.Services.Data;
+    using TikKok.Services.Data.Models;
     using TikKok.Web.ViewModels;
     using TikKok.Web.ViewModels.Home;
 
     public class HomeController : BaseController
     {
-        private readonly ApplicationDbContext db;
         private readonly IGetCountsService countsService;
-        private readonly IMapper mapper;
 
-        public HomeController(IGetCountsService countsService, IMapper mapper)
+        // private readonly IMapper mapper;
+        public HomeController(IGetCountsService countsService /*IMapper mapper*/)
         {
             this.countsService = countsService;
-            this.mapper = mapper;
+
+            // this.mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var counts = this.countsService.GetCounts();
+            var countsDto = this.countsService.GetCounts();
 
-            var viewModel = this.mapper.Map<IndexViewModel>(counts);
+            // var viewModel = this.mapper.Map<IndexViewModel>(counts);
+            var viewModel = new IndexViewModel
+            {
+                VideosCount = countsDto.VideosCount,
+                TagsCount = countsDto.TagsCount,
+                UsersCount = countsDto.UsersCount,
+            };
 
             return this.View(viewModel);
         }

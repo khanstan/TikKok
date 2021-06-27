@@ -1,4 +1,4 @@
-﻿@using TikKok.Common
+﻿@model TikKok.Web.ViewModels.Video.Upload.UploadVideoInputModel
 @{
     this.ViewData["Title"] = "Upload video";
 }
@@ -8,164 +8,16 @@
     You could upload .mp4 video and maximum size 50 mb .
 </div>
 
-<script>
-    function handleErrors(response) {
-        if (!response.ok) {
-            throw Error(response.statusText);
-        }
-        return response;
-    }
-    //test action with filename parameter will retrieve file size in bytes .
-    function GetFileSize2() {
-        //   var thefilename = document.getElementById("pfilename").innerHTML;
-        var thefilename = document.getElementById("hid1").innerHTML;
-        fetch("uploadFileSize?filename=" + thefilename)
-            .then(handleErrors)
-            .then(function (response) {
+<form method="post" class="col-md-6 offset-md-3"
+      enctype="multipart/form-data">
+    <h1>@this.ViewData["Title"]</h1>
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-                response.text().then(function (currentsize) {
-                    //document.getElementById("p2").innerHTML = currentsize;
-
-                    var totalsize = document.getElementById('file').files[0].size;
-                    var percentComplete = currentsize / totalsize;
-                    $("#bar2").val(percentComplete * 100);
-
-                });
-            }).catch(function (error) {
-                console.log(error);
-            });
-    }
-    function checkeach2() {
-        $("#bar2").show();
-        if (!$("#bar2").val(100)) {
-            setInterval(function () {
-                GetFileSize2();
-            }, 3000);
-        }
-        if ($("#bar2").val(100)) {
-            document.getElementById("puploadedsuccess").innerHTML = "File Uploaded Successfully! We processing it now please wait..";
-
-        }
-    }
-    $(document).ready(function () {
-        $("#bar2").hide();
-    });
-
-</script>
-
-
-
-@using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "Myform" }))
-{
-
-    <div>
-
-        <div class="row">
-
-            <div class="col-md-4">
-                @Html.TextBox("file", "", new { type = "file", @onchange = "checkExt();", @class = "btn-info" })
-            </div>
-
-            <div class="col-md-4">
-                <label for="username">Enter Your TikTok Username:</label> <input type="text" id="username" name="username" />
-
-            </div>
-
-            <div class="col-md-4">
-                <input type="submit" value="Upload" class="btn-success" onclick="checkeach2()" />
-            </div>
-
-
-
-
-        </div>
-
-        <br />
-
-
-
-
-        <div id="progress2">
-            <progress style="width:50%" id="bar2" value="0" max="100"></progress>
-
-        </div>
-
-        <p id="puploadedsuccess"></p>
-
-        <br />
-
-        <a href=@ViewBag.downloadpath style="font-size:large;color:blue;background-color:antiquewhite">@ViewBag.download</a>
-
-        <p id="underprocess"></p>
-
-
-        <br />
-
-        <p id="bytes2"></p>
-
-        <br />
-
-
-
-
-
-
-
-        <br />
-
-        <input type="hidden" id="hid1" name="hid1" value="">
-
-        <input type="hidden" id="hid2" name="hid2" value="">
-
-        <p id="p1"></p>
-
-        <br />
-        <p id="totalsize"></p>
-
-        <p id="pfilename"></p>
-
-        <br />
-
-
-
+    <div class="form-group">
+        <label asp-for="Video"></label>
+        <input asp-for="Video" class="form-control" />
+        <span asp-validation-for="Video" class="text-danger"></span>
     </div>
 
-
-}
-
-
-
-
-
-<div id="status"></div>
-
-
-
-
-<script>
-    function checkExt() {
-        if (document.getElementById('file').value.lastIndexOf(".mp4") == -1) {
-            alert("Please upload only .mp4 extention file");
-            document.getElementById('file').value = null;
-            return false;
-        }
-
-        if (document.getElementById('file').files[0].size > 52428800) {
-            alert("Maximum file size allowed is 50 mb ");
-            document.getElementById('file').value = null;
-            return false;
-        }
-        //var totalsize = document.getElementById('file').files[0].size;
-        //document.getElementById("totalsize").innerHTML = totalsize;
-        var filefakepath = document.getElementById('file').value;
-
-        var str = filefakepath;
-        str.slice(0, str.lastIndexOf('\\') + 1);
-        // => "C:\fakepath\"
-        str.slice(str.lastIndexOf('\\') + 1);
-
-        //  document.getElementById("pfilename").innerHTML = str.slice(str.lastIndexOf('\\') + 1);
-        document.getElementById("hid1").innerHTML = str.slice(str.lastIndexOf('\\') + 1);
-    }
-
-</script>
+    <input type="submit" class="btn btn-primary" />
+</form>
