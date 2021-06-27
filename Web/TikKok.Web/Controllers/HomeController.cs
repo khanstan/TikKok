@@ -1,8 +1,10 @@
 ﻿namespace TikKok.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
-
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using TikKok.Data.Models;
     using TikKok.Services.Data;
     using TikKok.Services.Data.Models;
     using TikKok.Web.ViewModels;
@@ -11,28 +13,28 @@
     public class HomeController : BaseController
     {
         private readonly IGetCountsService countsService;
+        private readonly IListVideoService listVideoService;
 
-        // private readonly IMapper mapper;
-        public HomeController(IGetCountsService countsService /*IMapper mapper*/)
+        public HomeController(IGetCountsService countsService, IListVideoService listVideoService)
         {
             this.countsService = countsService;
+            this.listVideoService = listVideoService;
 
             // this.mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var countsDto = this.countsService.GetCounts();
-
-            // var viewModel = this.mapper.Map<IndexViewModel>(counts);
-            var viewModel = new IndexViewModel
-            {
-                VideosCount = countsDto.VideosCount,
-                TagsCount = countsDto.TagsCount,
-                UsersCount = countsDto.UsersCount,
-            };
+            var viewModel = this.listVideoService.GetAll();
 
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.listVideoService.DeleteAsync(id);
+            return this.Redirect("/");
         }
 
         public IActionResult Privacy()

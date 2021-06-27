@@ -21,7 +21,6 @@
 
         public async Task CreateAsync(UploadVideoInputModel input, string userId, string videoPath)
         {
-
             // /wwwroot/videos/videos/jhdsi-343g3h453-=g34g.jpg
             Directory.CreateDirectory($"{videoPath}/videos/");
 
@@ -38,6 +37,9 @@
             };
 
             var physicalPath = $"{videoPath}/videos/{video.Id}.{extension}";
+
+            video.Path = $"/videos/videos/{video.Id}.{extension}";
+
             using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
             await input.Video.CopyToAsync(fileStream);
 

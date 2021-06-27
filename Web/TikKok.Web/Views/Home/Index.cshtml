@@ -1,5 +1,4 @@
 ﻿@using TikKok.Common
-@model TikKok.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
@@ -10,8 +9,33 @@
 </div>
 
 
-<ul>
-    <li>Videos: @Model.VideosCount</li>
-    <li>Tags: @Model.TagsCount</li>
-    <li>Users: @Model.UsersCount</li>
-</ul>
+
+<div class="container-fluid h-100 d-flex flex-column">
+    <div class="col-md-9 col-sm-11 justify-content-center" style="margin: auto">
+
+
+        @foreach (var video in this.Model)
+        {
+            <div class="cards-spacing">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <span class="post-title">@video.Uploader</span>
+                        <span class="post-date">@video.Extension</span>
+                    </div>
+                    <div class="card-body">
+                        <video width="200" height="400" controls>
+                            <source src="@video.Path" type="video/mp4">
+                        </video>
+                        <p class="card-text likes">12,098 Likes</p>
+                        <p class="card-text">This is a very special moment in my life #breathecode #iphone #instalikes #igers</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <form method="post" asp-action="Delete" id="deleteForm" asp-route-id="@video.Id">
+                            <button type="submit"> Delete </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -51,7 +51,7 @@
 
             this.TempData["Message"] = "Video added successfully.";
 
-            return this.RedirectToAction("Index");
+            return this.Redirect("/");
         }
 
         // [HttpPost]

@@ -1,9 +1,13 @@
 ﻿@using TikKok.Common
+@using TikKok.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
@@ -50,19 +54,36 @@
                         </div>
 
                         <div class="vnb__menu-options vnb__menu-options--right">
-                            <div class="vnb__menu-options__option">
-                                <a href="/Identity/Account/Register" class="vnb__menu-options__option__button vnb-button button-red" aria-label="Signup">
-                                    <!---->
-                                    Signup
-                                    <!---->
-                                </a>
-                            </div><div class="vnb__menu-options__option">
-                                <a href="/Identity/Account/Login" class="vnb__menu-options__option__button vnb-button" aria-label="Login">
-                                    <!---->
-                                    Login
-                                    <span class="vnb__menu-options__option__button__icon vnb__menu-options__option__button__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
-                                </a>
-                            </div>
+                            @if (!this.SignInManager.IsSignedIn(this.User))
+                            {
+                                <div class="vnb__menu-options__option">
+                                    <a href="/Identity/Account/Register" class="vnb__menu-options__option__button vnb-button button-red" aria-label="Signup">
+                                        <!---->
+                                        Signup
+                                        <!---->
+                                    </a>
+                                </div><div class="vnb__menu-options__option">
+                                    <a href="/Identity/Account/Login" class="vnb__menu-options__option__button vnb-button" aria-label="Login">
+                                        <!---->
+                                        Login
+                                        <span class="vnb__menu-options__option__button__icon vnb__menu-options__option__button__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                    </a>
+                                </div>
+                            }
+                            @if (this.SignInManager.IsSignedIn(this.User))
+                            {
+                                <div class="vnb__menu-options__option">
+                                    <a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>
+                                </div>
+                                <div class="vnb__menu-options__option">
+                                    <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">
+                                        <!---->
+                                        Logout
+                                        <span class="vnb__menu-options__option__button__icon vnb__menu-options__option__button__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                    </a>
+                                </div>
+
+                            }
                         </div>
                         <button id="collapse" type="button" aria-expanded="false" class="vnb__collapse-button"><svg height="100pt" preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100" width="100pt" xmlns="http://www.w3.org/2000/svg" class="vnb__collapse-button__image" style="fill: rgb(102, 28, 35);"><title>Menu</title> <g transform="matrix(.1 0 0 -.1 0 100)"><path d="m0 850v-40h500 500v40 40h-500-500z"></path> <path d="m0 495v-45h500 500v45 45h-500-500z"></path> <path d="m0 140v-40h500 500v40 40h-500-500z"></path></g></svg></button>
                         <div id="vnb__popup" class="vnb__popup" style="">
@@ -111,20 +132,39 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="vnb__popup__bottom__menu-options__option">
-                                        <a href="#/signup" class="vnb__popup__bottom__menu-options__option__link button-red" aria-label="Signup">
-                                            <!---->
-                                            Signup
-                                            <!---->
-                                        </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
-                                    </li>
-                                    <li class="vnb__popup__bottom__menu-options__option">
-                                        <a href="#/login" class="vnb__popup__bottom__menu-options__option__link" aria-label="Login">
-                                            <!---->
-                                            Login
-                                            <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
-                                        </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
-                                    </li>
+                                    @if (!this.SignInManager.IsSignedIn(this.User))
+                                    {
+                                        <li class="vnb__popup__bottom__menu-options__option">
+
+                                            <a href="#/signup" class="vnb__popup__bottom__menu-options__option__link button-red" aria-label="Signup">
+                                                <!---->
+                                                Signup
+                                                <!---->
+                                            </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
+                                        </li>
+                                        <li class="vnb__popup__bottom__menu-options__option">
+                                            <a href="#/login" class="vnb__popup__bottom__menu-options__option__link" aria-label="Login">
+                                                <!---->
+                                                Login
+                                                <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                            </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
+                                        </li>
+                                    }
+                                    @if (this.SignInManager.IsSignedIn(this.User))
+                                    {
+                                        <li class="vnb__popup__bottom__menu-options__option">
+                                            <a href="/Identity/Account/Logout" class="vnb__popup__bottom__menu-options__option__link" aria-label="Logout">
+                                                <!---->
+                                                Logout
+                                                <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                            </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
+
+                                            <b-avatar variant="primary" text="BV"></b-avatar>
+                                        </li>
+
+
+
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -140,7 +180,8 @@
             </main>
         </div>
     </div>
-    <footer class="border-top footer text-muted">
+
+    <footer class="footer text-muted fixed-bottom">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
@@ -152,6 +193,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 
+
     @*Vue*@
 
     <script src="~/dist/vendor.min.js"></script>
@@ -161,4 +203,5 @@
 
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
