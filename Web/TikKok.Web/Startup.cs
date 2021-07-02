@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -46,6 +47,14 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // User settings.
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
+            });
+
             services.AddControllersWithViews(
                 options =>
                     {
@@ -66,8 +75,10 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IGetCountsService, GetCountsService>();
             services.AddTransient<IVideoUploadService, VideoUploadService>();
-            services.AddTransient<IListVideoService, ListVideoService>();
+            services.AddTransient<IListPostService, ListPostService>();
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

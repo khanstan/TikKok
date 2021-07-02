@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TikKok.Data.Models;
     using TikKok.Services.Data;
@@ -13,27 +14,34 @@
     public class HomeController : BaseController
     {
         private readonly IGetCountsService countsService;
-        private readonly IListVideoService listVideoService;
+        private readonly IListPostService listPostService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IGetCountsService countsService, IListVideoService listVideoService)
+        public HomeController(IGetCountsService countsService, IListPostService listPostService, UserManager<ApplicationUser> userManager)
         {
             this.countsService = countsService;
-            this.listVideoService = listVideoService;
+            this.listPostService = listPostService;
+            this.userManager = userManager;
 
             // this.mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(IndexViewModel model)
         {
-            var viewModel = this.listVideoService.GetAll();
+            //var viewModel = new IndexViewModel
+            //{
+            //    Path = 
+            //};
+
+            var viewModel = this.listPostService.GetAll();
 
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string PostId)
         {
-            await this.listVideoService.DeleteAsync(id);
+            await this.listPostService.DeleteAsync(PostId);
             return this.Redirect("/");
         }
 

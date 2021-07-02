@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public interface IListVideoService
+    public interface IListPostService
     {
         IQueryable GetAll();
 

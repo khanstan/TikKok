@@ -6,7 +6,7 @@
 
         public int VideoId { get; set; }
 
-        public virtual Video Video { get; set; }
+        public virtual Post Video { get; set; }
 
         public int TagId { get; set; }
 

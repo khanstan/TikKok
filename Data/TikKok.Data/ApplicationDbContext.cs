@@ -34,6 +34,8 @@
 
         public DbSet<VideoTag> VideoTags { get; set; }
 
+        public DbSet<Post> Posts { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -57,6 +59,10 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+                    .Property(e => e.CredentialUsername)
+                    .HasMaxLength(25);
 
             this.ConfigureUserIdentityRelations(builder);
 

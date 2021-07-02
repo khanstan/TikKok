@@ -14,23 +14,23 @@
     <div class="col-md-9 col-sm-11 justify-content-center" style="margin: auto">
 
 
-        @foreach (var video in this.Model)
+        @foreach (var post in this.Model)
         {
             <div class="cards-spacing">
                 <div class="card text-center">
                     <div class="card-header">
-                        <span class="post-title">@video.Uploader</span>
-                        <span class="post-date">@video.Extension</span>
+                        <span class="post-title">@@@post.CredentialUsername</span>
+                        <span class="post-date">@post.UploadDate</span>
                     </div>
                     <div class="card-body">
-                        <video width="200" height="400" controls>
-                            <source src="@video.Path" type="video/mp4">
+                        <video width="300" height="600" controls loop>
+                            <source src="@post.Path" type="video/mp4">
                         </video>
                         <p class="card-text likes">12,098 Likes</p>
                         <p class="card-text">This is a very special moment in my life #breathecode #iphone #instalikes #igers</p>
                     </div>
                     <div class="card-footer text-muted">
-                        <form method="post" asp-action="Delete" id="deleteForm" asp-route-id="@video.Id">
+                        <form method="post" asp-action="Delete" id="deleteForm" asp-route-id="@post.PostId">
                             <button type="submit"> Delete </button>
                         </form>
                     </div>

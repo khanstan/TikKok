@@ -15,16 +15,16 @@ namespace TikKok.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -48,7 +48,7 @@ namespace TikKok.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -179,6 +179,10 @@ namespace TikKok.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CredentialUsername")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
@@ -248,7 +252,7 @@ namespace TikKok.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CommentText")
                         .HasColumnType("nvarchar(max)");
@@ -285,12 +289,50 @@ namespace TikKok.Data.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("TikKok.Data.Models.Post", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Shares")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VideoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("VideoId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("TikKok.Data.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -322,7 +364,7 @@ namespace TikKok.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -339,14 +381,14 @@ namespace TikKok.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VideoId")
+                    b.Property<string>("PostId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("VideoId");
+                    b.HasIndex("PostId");
 
                     b.ToTable("Tags");
                 });
@@ -371,20 +413,11 @@ namespace TikKok.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Shares")
-                        .HasColumnType("int");
 
                     b.Property<int>("Size")
                         .HasColumnType("int");
@@ -406,7 +439,7 @@ namespace TikKok.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
@@ -483,7 +516,7 @@ namespace TikKok.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.HasOne("TikKok.Data.Models.Video", "Video")
+                    b.HasOne("TikKok.Data.Models.Post", "Video")
                         .WithMany("Comments")
                         .HasForeignKey("VideoId1");
 
@@ -492,11 +525,20 @@ namespace TikKok.Data.Migrations
                     b.Navigation("Video");
                 });
 
+            modelBuilder.Entity("TikKok.Data.Models.Post", b =>
+                {
+                    b.HasOne("TikKok.Data.Models.Video", "Video")
+                        .WithMany()
+                        .HasForeignKey("VideoId");
+
+                    b.Navigation("Video");
+                });
+
             modelBuilder.Entity("TikKok.Data.Models.Tag", b =>
                 {
-                    b.HasOne("TikKok.Data.Models.Video", null)
+                    b.HasOne("TikKok.Data.Models.Post", null)
                         .WithMany("Tags")
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("TikKok.Data.Models.Video", b =>
@@ -516,7 +558,7 @@ namespace TikKok.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TikKok.Data.Models.Video", "Video")
+                    b.HasOne("TikKok.Data.Models.Post", "Video")
                         .WithMany()
                         .HasForeignKey("VideoId1");
 
@@ -534,16 +576,16 @@ namespace TikKok.Data.Migrations
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("TikKok.Data.Models.Tag", b =>
-                {
-                    b.Navigation("Videos");
-                });
-
-            modelBuilder.Entity("TikKok.Data.Models.Video", b =>
+            modelBuilder.Entity("TikKok.Data.Models.Post", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("TikKok.Data.Models.Tag", b =>
+                {
+                    b.Navigation("Videos");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,11 @@
 ﻿namespace TikKok.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
     using TikKok.Data;
     using TikKok.Data.Models;
     using TikKok.Services.Data;
@@ -43,7 +44,6 @@
         [Authorize]
         public async Task<IActionResult> Upload(UploadVideoInputModel input)
         {
-
             // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
 

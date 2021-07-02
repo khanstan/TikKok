@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TikKok.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ScaffoldedRegisterAccount : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,6 +30,7 @@ namespace TikKok.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CredentialUsername = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -183,14 +184,11 @@ namespace TikKok.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UploaderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     Size = table.Column<int>(type: "int", nullable: false),
                     Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Likes = table.Column<int>(type: "int", nullable: false),
-                    Shares = table.Column<int>(type: "int", nullable: false),
-                    UploaderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -203,6 +201,31 @@ namespace TikKok.Data.Migrations
                         name: "FK_Videos_AspNetUsers_UploaderId",
                         column: x => x.UploaderId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VideoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Likes = table.Column<int>(type: "int", nullable: false),
+                    Shares = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Videos_VideoId",
+                        column: x => x.VideoId,
+                        principalTable: "Videos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -232,9 +255,9 @@ namespace TikKok.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_Videos_VideoId1",
+                        name: "FK_Comments_Posts_VideoId1",
                         column: x => x.VideoId1,
-                        principalTable: "Videos",
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -246,7 +269,7 @@ namespace TikKok.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VideoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -256,9 +279,9 @@ namespace TikKok.Data.Migrations
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tags_Videos_VideoId",
-                        column: x => x.VideoId,
-                        principalTable: "Videos",
+                        name: "FK_Tags_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -277,15 +300,15 @@ namespace TikKok.Data.Migrations
                 {
                     table.PrimaryKey("PK_VideoTags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VideoTags_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
+                        name: "FK_VideoTags_Posts_VideoId1",
+                        column: x => x.VideoId1,
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VideoTags_Videos_VideoId1",
-                        column: x => x.VideoId1,
-                        principalTable: "Videos",
+                        name: "FK_VideoTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -355,6 +378,16 @@ namespace TikKok.Data.Migrations
                 column: "VideoId1");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_IsDeleted",
+                table: "Posts",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_VideoId",
+                table: "Posts",
+                column: "VideoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Settings_IsDeleted",
                 table: "Settings",
                 column: "IsDeleted");
@@ -365,9 +398,9 @@ namespace TikKok.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tags_VideoId",
+                name: "IX_Tags_PostId",
                 table: "Tags",
-                column: "VideoId");
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Videos_IsDeleted",
@@ -421,6 +454,9 @@ namespace TikKok.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Videos");

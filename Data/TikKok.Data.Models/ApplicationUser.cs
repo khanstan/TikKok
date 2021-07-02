@@ -4,9 +4,8 @@ namespace TikKok.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using TikKok.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using TikKok.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
@@ -19,6 +18,8 @@ namespace TikKok.Data.Models
         }
 
         // Audit info
+        public string CredentialUsername { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }

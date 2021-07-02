@@ -1,5 +1,6 @@
 ﻿namespace TikKok.Services.Data
 {
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.IO;
     using System.Linq;
@@ -12,11 +13,18 @@
     public class VideoUploadService : IVideoUploadService
     {
         private readonly string[] allowedExtensions = new[] { "mp4", "avi" };
+        private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IDeletableEntityRepository<Video> videosRepository;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
-        public VideoUploadService(IDeletableEntityRepository<Video> videosRepository)
+        public VideoUploadService(IDeletableEntityRepository<Post> postsRepository, IDeletableEntityRepository<Video> videosRepository,
+        UserManager<ApplicationUser> userManager, IDeletableEntityRepository<ApplicationUser> usersRepository)
         {
+            this.postsRepository = postsRepository;
             this.videosRepository = videosRepository;
+            this.userManager = userManager;
+            this.usersRepository = usersRepository;
         }
 
         public async Task CreateAsync(UploadVideoInputModel input, string userId, string videoPath)
@@ -32,9 +40,21 @@
 
             var video = new Video
             {
+                //Uploader = this.usersRepository.All().Where(x => x.Id == UploaderId).Select(x => x.UserName),
                 UploaderId = userId,
                 Extension = extension,
             };
+
+            var post = new Post
+            {
+                Video = video,
+                Description = "Add a desctiption form",
+                //Tags = new Tag {
+                //    Name = "Choose appropriate tags!",
+                //},
+            };
+
+
 
             var physicalPath = $"{videoPath}/videos/{video.Id}.{extension}";
 
@@ -43,8 +63,8 @@
             using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
             await input.Video.CopyToAsync(fileStream);
 
-            await this.videosRepository.AddAsync(video);
-            await this.videosRepository.SaveChangesAsync();
+            await this.postsRepository.AddAsync(post);
+            await this.postsRepository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)

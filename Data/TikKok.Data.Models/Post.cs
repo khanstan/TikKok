@@ -1,12 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TikKok.Data.Models
+﻿namespace TikKok.Data.Models
 {
-    public class Post
-    {
-        public int Id { get; set; }
+    using System;
+    using System.Collections.Generic;
 
+    using TikKok.Data.Common.Models;
+
+    public class Post : BaseDeletableModel<string>
+    {
+        public Post()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Comments = new HashSet<Comment>();
+            this.Tags = new HashSet<Tag>();
+        }
+
+        public string VideoId { get; set; }
+
+        public virtual Video Video { get; set; }
+
+        public string Description { get; set; }
+
+        public int Likes { get; set; }
+
+        public int Shares { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }
