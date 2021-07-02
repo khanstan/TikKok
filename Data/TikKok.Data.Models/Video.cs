@@ -1,8 +1,7 @@
 ﻿namespace TikKok.Data.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+
     using TikKok.Data.Common.Models;
 
     public class Video : BaseDeletableModel<string>
@@ -23,6 +22,5 @@
         public string Extension { get; set; }
 
         public string Path { get; set; }
-
     }
 }

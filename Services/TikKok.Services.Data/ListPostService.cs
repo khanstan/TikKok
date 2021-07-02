@@ -28,7 +28,10 @@
         {
             var postInfo = this.postsRepository.All().Select(y => new IndexViewModel
             {
+                PostId = y.Id,
                 CredentialUsername = y.Video.Uploader.CredentialUsername,
+                Description = y.Description,
+                Likes = y.Likes,
                 Path = y.Video.Path,
                 Extension = y.Video.Extension,
                 UploadDate = y.CreatedOn,
@@ -38,13 +41,18 @@
             return postInfo;
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task Like(string postId)
         {
-
-            var video = this.postsRepository.All().FirstOrDefault(x => x.Id == id);
-            this.postsRepository.Delete(video);
+            var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);
+            video.Likes += 1;
             await this.postsRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(string postId)
+        {
+            var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);
+            this.postsRepository.Delete(video);
+            await this.postsRepository.SaveChangesAsync();
+        }
     }
 }

@@ -1,13 +1,12 @@
 ﻿namespace TikKok.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using TikKok.Data.Models;
     using TikKok.Services.Data;
-    using TikKok.Services.Data.Models;
     using TikKok.Web.ViewModels;
     using TikKok.Web.ViewModels.Home;
 
@@ -28,20 +27,22 @@
 
         public IActionResult Index(IndexViewModel model)
         {
-            //var viewModel = new IndexViewModel
-            //{
-            //    Path = 
-            //};
-
             var viewModel = this.listPostService.GetAll();
 
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string PostId)
+        public async Task<IActionResult> Like(string id)
         {
-            await this.listPostService.DeleteAsync(PostId);
+            await this.listPostService.Like(id);
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.listPostService.DeleteAsync(id);
             return this.Redirect("/");
         }
 

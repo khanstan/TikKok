@@ -10,11 +10,11 @@
 
         public string VideoId { get; set; }
 
-        public string PostDescription { get; set; }
+        public string Description { get; set; }
 
         public string CredentialUsername { get; set; }
 
-        public string Username { get; set; }
+        public int Likes { get; set; }
 
         public string UploaderId { get; set; }
 

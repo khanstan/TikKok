@@ -5,5 +5,7 @@
     public class UploadVideoInputModel
     {
         public IFormFile Video { get; set; }
+
+        public string Description { get; set; }
     }
 }

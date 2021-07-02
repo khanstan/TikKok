@@ -48,7 +48,7 @@
             var post = new Post
             {
                 Video = video,
-                Description = "Add a desctiption form",
+                Description = input.Description,
                 //Tags = new Tag {
                 //    Name = "Choose appropriate tags!",
                 //},
