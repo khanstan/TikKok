@@ -23,7 +23,6 @@ namespace TikKok.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [IgnoreAntiforgeryToken]
         public async Task<ActionResult<LikeResponseModel>> Like(LikeInputModel input)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;

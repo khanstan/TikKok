@@ -3,6 +3,17 @@
     this.ViewData["Title"] = "Home Page";
 }
 
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@functions
+{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -81,6 +92,7 @@
                         JSON.stringify(data),
                         {
                             headers: {
+                                "RequestVerificationToken": "@GetAntiXsrfRequestToken()",
                                 'Content-Type': 'application/json',
                             }
                         })

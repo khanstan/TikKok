@@ -1,6 +1,5 @@
 TODO:
-Add comments.
-Add Antiforgery for voting.
+Add comments(List them using api/Comments/ WITH GET!) use modal ^^.
 Add sharing.
 Add Messaging.
 Implement avatars.
