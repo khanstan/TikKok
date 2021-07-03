@@ -31,7 +31,7 @@
                 PostId = y.Id,
                 CredentialUsername = y.Video.Uploader.CredentialUsername,
                 Description = y.Description,
-                Likes = y.Likes,
+                Likes = y.Likes.Count(),
                 Path = y.Video.Path,
                 Extension = y.Video.Extension,
                 UploadDate = y.CreatedOn,
@@ -39,13 +39,6 @@
             });
 
             return postInfo;
-        }
-
-        public async Task Like(string postId)
-        {
-            var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);
-            video.Likes += 1;
-            await this.postsRepository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string postId)

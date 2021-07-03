@@ -33,13 +33,6 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Like(string id)
-        {
-            await this.listPostService.Like(id);
-            return this.View();
-        }
-
-        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
             await this.listPostService.DeleteAsync(id);

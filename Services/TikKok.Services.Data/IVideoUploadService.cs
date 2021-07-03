@@ -6,7 +6,7 @@
 
     public interface IVideoUploadService
     {
-        Task CreateAsync(UploadVideoInputModel input, string userId, string videoPath);
+        Task CreateAsync(UploadVideoInputModel input, string userId, string videoPath, string rootPath);
 
         Task DeleteAsync(string id);
     }

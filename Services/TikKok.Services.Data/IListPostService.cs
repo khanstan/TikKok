@@ -8,7 +8,5 @@
         IQueryable GetAll();
 
         Task DeleteAsync(string id);
-
-        Task Like(string postId);
     }
 }

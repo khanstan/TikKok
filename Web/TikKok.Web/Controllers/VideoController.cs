@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using NReco.VideoConverter;
     using TikKok.Data;
     using TikKok.Data.Models;
     using TikKok.Services.Data;
@@ -48,7 +47,7 @@
             // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.videoUploadService.CreateAsync(input, user.Id, $"{this.environment.WebRootPath}/videos");
+            await this.videoUploadService.CreateAsync(input, user.Id, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
 
             this.TempData["Message"] = "Video added successfully.";
 

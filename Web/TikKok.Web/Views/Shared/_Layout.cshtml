@@ -12,9 +12,22 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
+
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    @*<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+    <!-- Load Vue followed by BootstrapVue -->
+    <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+    <!-- Load the following for BootstrapVueIcons support -->
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @*Vue*@
-    <link rel="stylesheet" href="~/dist/style.min.css" />
-    <link rel="stylesheet" href="~/dist/master.min.css" />
+    <!--<link rel="stylesheet" href="~/dist/style.min.css" />
+    <link rel="stylesheet" href="~/dist/master.min.css" />-->
     @*Vue*@
 </head>
 <body>
@@ -72,9 +85,10 @@
                             }
                             @if (this.SignInManager.IsSignedIn(this.User))
                             {
-                                <div class="vnb__menu-options__option">
-                                    <a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>
-                                </div>
+                        <div class="vnb__menu-options__option">
+                            @*<a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>*@
+                            <b-avatar variant="primary" text="BV"></b-avatar>
+                        </div>
                                 <div class="vnb__menu-options__option">
                                     <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">
                                         <!---->
@@ -192,12 +206,12 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
-
+    @*<script src="~/dist/index.js"></script>*@
 
     @*Vue*@
 
-    <script src="~/dist/vendor.min.js"></script>
-    <script src="~/dist/master.min.js"></script>
+    <!--<script src="~/dist/vendor.min.js"></script>
+    <script src="~/dist/master.min.js"></script>-->
 
     @*Vue*@
 

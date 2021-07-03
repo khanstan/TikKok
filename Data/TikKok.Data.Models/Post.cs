@@ -12,6 +12,7 @@
             this.Id = Guid.NewGuid().ToString();
             this.Comments = new HashSet<Comment>();
             this.Tags = new HashSet<Tag>();
+            this.Likes = new HashSet<Like>();
         }
 
         public string VideoId { get; set; }
@@ -20,12 +21,13 @@
 
         public string Description { get; set; }
 
-        public int Likes { get; set; }
 
         public int Shares { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
     }
 }
