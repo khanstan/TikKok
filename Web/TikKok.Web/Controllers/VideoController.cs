@@ -5,27 +5,19 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using TikKok.Data;
-    using TikKok.Data.Models;
     using TikKok.Services.Data;
     using TikKok.Web.ViewModels.Video.Upload;
 
     public class VideoController : Controller
     {
-
-        private readonly ApplicationDbContext db;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IVideoUploadService videoUploadService;
         private readonly IWebHostEnvironment environment;
 
         public VideoController(
-        UserManager<ApplicationUser> userManager,
         IVideoUploadService videoUploadService,
         IWebHostEnvironment environment)
         {
-            this.userManager = userManager;
             this.videoUploadService = videoUploadService;
             this.environment = environment;
         }
@@ -59,45 +51,45 @@
         //    public async Task<ActionResult> Upload(IFormFile file)
         //    {
 
-        //        try
+        // try
         //        {
         //            string webRootPath = this._webHostEnvironment.WebRootPath;
         //            string contentRootPath = this._webHostEnvironment.ContentRootPath;
 
-        //            string username = this.Request.Form["username"];
+        // string username = this.Request.Form["username"];
 
-        //            string timenowoutputfile = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".mp4";
+        // string timenowoutputfile = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".mp4";
 
-        //            string output_path = Path.Combine(this.HttpContext.Request.PathBase + ("~/output"), timenowoutputfile);
+        // string output_path = Path.Combine(this.HttpContext.Request.PathBase + ("~/output"), timenowoutputfile);
 
-        //            if (file.Length > 0)
+        // if (file.Length > 0)
         //            {
         //                var fileName = Path.GetFileName(file.FileName);
 
-        //                string path1 = Path.Combine(Server.MapPath("~/UploadedFiles"), fileName);
+        // string path1 = Path.Combine(Server.MapPath("~/UploadedFiles"), fileName);
 
-        //                long fileSizeInBytes = file.Length;
+        // long fileSizeInBytes = file.Length;
         //                MemoryStream target = new MemoryStream();
         //                file.OpenReadStream().CopyTo(target);
         //                byte[] data = target.ToArray();
 
-        //                await Task.Run(() =>
+        // await Task.Run(() =>
         //                {
         //                    using (FileStream
-        //fileStream = new FileStream(path1, FileMode.Create))
+        // fileStream = new FileStream(path1, FileMode.Create))
         //                    {
 
-        //                        for (int i = 0; i < data.Length; i++)
+        // for (int i = 0; i < data.Length; i++)
         //                        {
         //                            fileStream.WriteByte(data[i]);
         //                        }
         //                    }
 
-        //                });
+        // });
 
-        //                this.ViewBag.Message = "File Uploaded Successfully!";
+        // this.ViewBag.Message = "File Uploaded Successfully!";
 
-        //                if (System.IO.File.Exists(path1))
+        // if (System.IO.File.Exists(path1))
         //                {
         //                    try
         //                    {
@@ -110,28 +102,28 @@
         //                    }
         //                }
 
-        //                // un comment this in release:
+        // // un comment this in release:
         //                if (System.IO.File.Exists(path1))
         //                {
         //                    System.IO.File.Delete(path1);
         //                }
 
-        //                this.ViewBag.download = "Download the logo added video from here";
+        // this.ViewBag.download = "Download the logo added video from here";
 
-        //                var path = this.HttpContext.Request.Path;
+        // var path = this.HttpContext.Request.Path;
         //                var query = this.HttpContext.Request.QueryString;
         //                var pathAndQuery = path + query;
 
-        //                string fullUrl = this.AbsoluteUri;
+        // string fullUrl = this.AbsoluteUri;
         //                string querystring = path + query;
         //                string url = fullUrl.Replace(querystring, string.Empty) + "/";
 
-        //                //  ViewBag.downloadpath = url + output_path;
+        // //  ViewBag.downloadpath = url + output_path;
 
-        //                this.ViewBag.downloadpath = url + "output/" + timenowoutputfile;
+        // this.ViewBag.downloadpath = url + "output/" + timenowoutputfile;
         //            }
 
-        //            return this.View("Index");
+        // return this.View("Index");
         //        }
         //        catch
         //        {

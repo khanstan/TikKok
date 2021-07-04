@@ -31,6 +31,5 @@
         public string Extension { get; set; }
 
         public string Path { get; set; }
-
     }
 }

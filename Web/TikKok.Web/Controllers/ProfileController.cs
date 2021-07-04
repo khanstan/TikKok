@@ -1,16 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TikKok.Web.Controllers
+﻿namespace TikKok.Web.Controllers
 {
+    using System.Security.Claims;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using TikKok.Services.Data;
+    using TikKok.Web.ViewModels.Home;
+    using TikKok.Web.ViewModels.Profile;
+
     public class ProfileController : BaseController
     {
-        public IActionResult Index()
+        private readonly IListProfileLikedService listProfileLikedService;
+
+        public ProfileController(IListProfileLikedService listProfileLikedService)
         {
-            return this.View();
+            this.listProfileLikedService = listProfileLikedService;
+        }
+
+        [Authorize]
+        public IActionResult Index(ProfileLikedViewModel model)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var viewModel = this.listProfileLikedService.GetAll(userId);
+            return this.View(viewModel);
         }
     }
 }

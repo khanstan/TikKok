@@ -1,10 +1,8 @@
 ﻿namespace TikKok.Services.Data
 {
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Identity;
     using TikKok.Data.Common.Repositories;
     using TikKok.Data.Models;
     using TikKok.Web.ViewModels.Home;
@@ -12,15 +10,11 @@
     public class ListPostService : IListPostService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
-        private readonly IRepository<Like> likesRepository;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public ListPostService(
-            IDeletableEntityRepository<Post> postsRepository, IRepository<Like> likesRepository, UserManager<ApplicationUser> userManager)
+            IDeletableEntityRepository<Post> postsRepository)
         {
             this.postsRepository = postsRepository;
-            this.likesRepository = likesRepository;
-            this.userManager = userManager;
         }
 
         public IQueryable GetAll(string userId)
@@ -59,12 +53,12 @@
             return postInfo;
         }
 
-        //public bool DidUserLikeThis(string postId, string userId)
-        //{
+        // public bool DidUserLikeThis(string postId, string userId)
+        // {
         //    var like = this.likesRepository.All()
         //        .FirstOrDefault(x => x.PostId == postId && x.UserId == userId);
 
-        //    if (like == null)
+        // if (like == null)
         //    {
         //        return false;
         //    }
@@ -72,8 +66,7 @@
         //    {
         //        return true;
         //    }
-        //}
-
+        // }
         public async Task DeleteAsync(string postId)
     {
         var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);

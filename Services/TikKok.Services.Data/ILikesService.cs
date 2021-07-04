@@ -7,6 +7,5 @@
         Task SetLikeAsync(string postId, string userId);
 
         int GetTotalLikes(string postId);
-
     }
 }

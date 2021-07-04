@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using TikKok.Services.Data;
-using TikKok.Web.ViewModels.Likes;
-
-namespace TikKok.Web.Controllers
+﻿namespace TikKok.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using TikKok.Services.Data;
+    using TikKok.Web.ViewModels.Likes;
+
     [ApiController]
     [Route("api/[controller]")]
     public class LikesController : BaseController
