@@ -7,6 +7,8 @@
     {
         IQueryable GetAll();
 
+        IQueryable GetAll(string userId);
+
         Task DeleteAsync(string id);
     }
 }

@@ -41,31 +41,39 @@
                                 <img src="~/assets/logo.png" alt="brand-image" class="vnb-image vnb__brand-image-wrapper__link__image" title="" style="">
                             </a>
                         </div>
+                        @if (this.SignInManager.IsSignedIn(this.User))
+                        {
+                            <div class="vnb__menu-options vnb__menu-options--left">
+                                <a href="/Video/Upload">
+                                    <div class="vnb__menu-options__option__link">
+                                        <img src="~/assets/takeVideoIcon.svg" height="35" width="35" />
+                                        Upload
+                                    </div>
+                                </a>
 
-                        <div class="vnb__menu-options vnb__menu-options--left">
-                            <a href="/Video/Upload">
-                                <div class="vnb__menu-options__option__link">
-                                    <img src="~/assets/takeVideoIcon.svg" height="35" width="35" />
-                                    Upload
-                                </div>
-                            </a>
+                                <a href="/Inbox">
+                                    <div class="vnb__menu-options__option__link">
+                                        <img src="~/assets/inbox.png" height="27" width="27" />
+                                        Inbox
+                                    </div>
+                                </a>
 
-                            <a href="/Inbox">
-                                <div class="vnb__menu-options__option__link">
-                                    <img src="~/assets/inbox.png" height="27" width="27" />
-                                    Inbox
-                                </div>
-                            </a>
+                                <a href="/Followers">
+                                    <div class="vnb__menu-options__option__link">
+                                        <img src="~/assets/followers.png" height="23" width="23" />
+                                        Followers
+                                    </div>
+                                </a>
 
-                            <a href="/Followers">
-                                <div class="vnb__menu-options__option__link">
-                                    <img src="~/assets/followers.png" height="23" width="23" />
-                                    Followers
-                                </div>
-                            </a>
+                                <a href="/Profile">
+                                    <div class="vnb__menu-options__option__link">
+                                        <img src="~/assets/profile.png" height="23" width="23" />
+                                        View Profile
+                                    </div>
+                                </a>
 
-                        </div>
-
+                            </div>
+                        }
                         <div class="vnb__menu-options vnb__menu-options--right">
                             @if (!this.SignInManager.IsSignedIn(this.User))
                             {
@@ -85,10 +93,10 @@
                             }
                             @if (this.SignInManager.IsSignedIn(this.User))
                             {
-                        <div class="vnb__menu-options__option">
-                            @*<a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>*@
-                            <b-avatar variant="primary" text="BV"></b-avatar>
-                        </div>
+                                <div class="vnb__menu-options__option">
+                                    @*<a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>*@
+                                    <b-avatar variant="primary" text="BV"></b-avatar>
+                                </div>
                                 <div class="vnb__menu-options__option">
                                     <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">
                                         <!---->
@@ -212,7 +220,6 @@
 
     <!--<script src="~/dist/vendor.min.js"></script>
     <script src="~/dist/master.min.js"></script>-->
-
     @*Vue*@
 
     @await this.RenderSectionAsync("Scripts", required: false)

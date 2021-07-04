@@ -21,7 +21,6 @@
 
         public string Description { get; set; }
 
-
         public int Shares { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

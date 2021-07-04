@@ -1,5 +1,5 @@
 TODO:
-Add comments(List them using api/Comments/ WITH GET!) use modal ^^.
+Add comments(List them using api/Comments/ WITH GET! OR SIGNALR).
 Add sharing.
 Add Messaging.
 Implement avatars.

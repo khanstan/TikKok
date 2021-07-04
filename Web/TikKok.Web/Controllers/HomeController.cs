@@ -1,6 +1,8 @@
 ﻿namespace TikKok.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
@@ -27,9 +29,17 @@
 
         public IActionResult Index(IndexViewModel model)
         {
-            var viewModel = this.listPostService.GetAll();
-
-            return this.View(viewModel);
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var test = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var viewModel = this.listPostService.GetAll(test);
+                return this.View(viewModel);
+            }
+            else
+            {
+                var viewModel = this.listPostService.GetAll();
+                return this.View(viewModel);
+            }
         }
 
         [HttpPost]

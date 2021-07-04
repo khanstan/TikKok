@@ -8,7 +8,6 @@
 
     public class LikesService : ILikesService
     {
-
         private readonly IRepository<Like> likesRepository;
 
         public LikesService(IRepository<Like> likesRepository)

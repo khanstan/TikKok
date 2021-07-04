@@ -1,5 +1,6 @@
 ﻿namespace TikKok.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -35,6 +36,7 @@
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Upload()
         {
             return this.View();
@@ -44,10 +46,9 @@
         [Authorize]
         public async Task<IActionResult> Upload(UploadVideoInputModel input)
         {
-            // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await this.userManager.GetUserAsync(this.User);
+            var user = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            await this.videoUploadService.CreateAsync(input, user.Id, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
+            await this.videoUploadService.CreateAsync(input, user, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
 
             this.TempData["Message"] = "Video added successfully.";
 
