@@ -10,11 +10,14 @@
     public class ListPostService : IListPostService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
+        private readonly IRepository<Like> likesRepository;
 
         public ListPostService(
-            IDeletableEntityRepository<Post> postsRepository)
+            IDeletableEntityRepository<Post> postsRepository,
+            IRepository<Like> likesRepository)
         {
             this.postsRepository = postsRepository;
+            this.likesRepository = likesRepository;
         }
 
         public IQueryable GetAll(string userId)
@@ -68,10 +71,18 @@
         //    }
         // }
         public async Task DeleteAsync(string postId)
-    {
-        var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);
-        this.postsRepository.Delete(video);
-        await this.postsRepository.SaveChangesAsync();
+        {
+            var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);
+            var videoFromLikes = this.likesRepository.All().FirstOrDefault(x => x.PostId == postId);
+            this.postsRepository.Delete(video);
+
+            if (videoFromLikes != null)
+            {
+                this.likesRepository.Delete(videoFromLikes);
+            }
+
+            await this.postsRepository.SaveChangesAsync();
+            await this.likesRepository.SaveChangesAsync();
+        }
     }
-}
 }

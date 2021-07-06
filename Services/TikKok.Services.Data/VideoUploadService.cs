@@ -38,14 +38,11 @@
             FFmpeg.SetExecutablesPath(rootPath);
             Directory.CreateDirectory($"{videoPath}/videos/");
 
-
             var extension = Path.GetExtension(input.Video.FileName).TrimStart('.');
             if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
             {
                 throw new Exception($"Invalid image extension {extension}");
             }
-
-
 
             var video = new Video
             {
@@ -57,9 +54,10 @@
             {
                 Video = video,
                 Description = input.Description,
-                //Tags = new Tag {
+                UserId = userId,
+                // Tags = new Tag {
                 //    Name = "Choose appropriate tags!",
-                //},
+                // },
             };
 
             var physicalPath = $"{videoPath}/videos/{video.Id}.{extension}";
@@ -71,6 +69,16 @@
             await input.Video.CopyToAsync(fileStream);
 
             var metaData = await FFmpeg.GetMediaInfo($"wwwroot/{post.Video.Path}");
+
+
+            // THIS FUNCTION CONVERTS 19:6 TO 6:19 AND ADDS BLACK TOP AND BOTTOM!!!!!!!!
+
+            // if (metaData.VideoStreams.FirstOrDefault().Ratio == "6:19")
+            // {
+            //    string ffmpeg = $"ffmpeg -i input.mp4 -vf "pad = iw:2 * trunc(iw * 16 / 18):(ow - iw) / 2:(oh - ih) / 2,setsar = 1" -c:a copy output.mp4";
+            //    FFMpegConverter wrap = new FFMpegConverter();
+            //    wrap.Invoke(ffmpeg);
+            // }
 
             video.Size = (int)metaData.Size;
             video.Duration = metaData.Duration;

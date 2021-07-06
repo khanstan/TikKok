@@ -1,4 +1,8 @@
 TODO:
+
+DO MIGRATION FIRST! 
+WORK ON FOLLOWERS. use API like Likes
+ 
 Add comments(List them using api/Comments/ WITH GET! OR SIGNALR).
 Add sharing.
 Add Messaging.

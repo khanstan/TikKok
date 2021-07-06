@@ -27,6 +27,11 @@
 
         public virtual ICollection<Tag> Tags { get; set; }
 
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+
         public virtual ICollection<Like> Likes { get; set; }
+
     }
 }

@@ -19,7 +19,7 @@
         {
             var postInfo = this.likesRepository.All().Where(u => u.UserId == userId).Select(y => new ProfileLikedViewModel
             {
-                PostId = y.Post.Id,
+                PostId = y.PostId,
                 CredentialUsername = y.Post.Video.Uploader.CredentialUsername,
                 Description = y.Post.Description,
                 Likes = y.Post.Likes.Count(),

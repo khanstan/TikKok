@@ -70,9 +70,10 @@ body {
     }
 }
 
-.btn {
-    text-transform: uppercase;
-    font-weight: bold
+.btn-follow {
+    font-size: 0.8rem;
+    line-height: 0.6;
+    margin-left: 0.6rem;
 }
 
 .github-corner:hover .octo-arm {
@@ -622,8 +623,7 @@ button.accept-policy {
 }
 
 .nav-tabs {
-    background-color: #302f2f;
-    border-bottom: none;
+    background-color: #fff;
 }
 
 .mycard {

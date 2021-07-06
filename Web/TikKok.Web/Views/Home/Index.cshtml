@@ -26,7 +26,10 @@
             <div class="cards-spacing">
                 <div class="card text-center">
                     <div class="card-header">
-                        <span class="post-title">@@@post.CredentialUsername</span>
+                        <span class="post-title">
+                            @@@post.CredentialUsername
+                            <b-button class="btn-follow href='/api/Follow'" variant="outline-danger">Follow</b-button>
+                        </span>
                         <span class="post-date">@post.UploadDate</span>
                         @*<img width="64" height="64" src="~/assets/like.svg" />
                             <img width="64" height="64" src="~/assets/comments.svg" />
@@ -169,5 +172,7 @@
 
     </script>
 
+    <script>
 
+    </script>
 }

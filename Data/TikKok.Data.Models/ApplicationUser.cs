@@ -15,6 +15,7 @@ namespace TikKok.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Posts = new HashSet<Post>();
             this.Likes = new HashSet<Like>();
         }
 
@@ -36,6 +37,14 @@ namespace TikKok.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
+        public virtual ICollection<Post> Posts { get; set; }
+
         public virtual ICollection<Like> Likes { get; set; }
+
+        public ICollection<ApplicationUser> Followers { get; set; }
+
+        public ICollection<ApplicationUser> Following { get; set; }
+
+        public ICollection<ApplicationUser> Blocked { get; set; }
     }
 }

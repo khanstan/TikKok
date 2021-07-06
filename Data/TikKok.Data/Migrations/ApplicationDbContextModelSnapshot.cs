@@ -340,12 +340,17 @@ namespace TikKok.Data.Migrations
                     b.Property<int>("Shares")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("VideoId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("VideoId");
 
@@ -567,9 +572,15 @@ namespace TikKok.Data.Migrations
 
             modelBuilder.Entity("TikKok.Data.Models.Post", b =>
                 {
+                    b.HasOne("TikKok.Data.Models.ApplicationUser", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId");
+
                     b.HasOne("TikKok.Data.Models.Video", "Video")
                         .WithMany()
                         .HasForeignKey("VideoId");
+
+                    b.Navigation("User");
 
                     b.Navigation("Video");
                 });
@@ -614,6 +625,8 @@ namespace TikKok.Data.Migrations
                     b.Navigation("Likes");
 
                     b.Navigation("Logins");
+
+                    b.Navigation("Posts");
 
                     b.Navigation("Roles");
                 });
