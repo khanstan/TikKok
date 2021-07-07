@@ -6,11 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TikKok.Data.Common.Models;
-    using TikKok.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using TikKok.Data.Common.Models;
+    using TikKok.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -38,6 +37,11 @@
 
         public DbSet<Like> Likes { get; set; }
 
+        public DbSet<UserFollow> UsersFollows { get; set; }
+
+        public DbSet<UserBlock> UsersBlocks { get; set; }
+
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -61,6 +65,21 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            builder.Entity<UserFollow>()
+                   .HasOne(l => l.SourceUser)
+                   .WithMany(a => a.Following)
+                   .HasForeignKey(l => l.SourceUserId);
+
+            builder.Entity<UserFollow>()
+                   .HasOne(l => l.FollowedUser)
+                   .WithMany(a => a.Followers)
+                   .HasForeignKey(l => l.FollowedUserId);
+
+            builder.Entity<UserBlock>()
+                   .HasOne(l => l.SourceUser)
+                   .WithMany(a => a.BlockedUsers)
+                   .HasForeignKey(l => l.SourceUserId);
 
             builder.Entity<ApplicationUser>()
                     .Property(e => e.CredentialUsername)

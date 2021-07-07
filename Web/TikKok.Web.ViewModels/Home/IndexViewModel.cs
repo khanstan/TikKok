@@ -31,5 +31,7 @@
         public string Extension { get; set; }
 
         public string Path { get; set; }
+
+        public string Followed { get; set; }
     }
 }

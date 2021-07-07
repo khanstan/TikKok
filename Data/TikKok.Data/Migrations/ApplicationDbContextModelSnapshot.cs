@@ -423,6 +423,62 @@ namespace TikKok.Data.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("TikKok.Data.Models.UserBlock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BlockedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SourceUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockedUserId");
+
+                    b.HasIndex("SourceUserId");
+
+                    b.ToTable("UsersBlocks");
+                });
+
+            modelBuilder.Entity("TikKok.Data.Models.UserFollow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FollowedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SourceUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowedUserId");
+
+                    b.HasIndex("SourceUserId");
+
+                    b.ToTable("UsersFollows");
+                });
+
             modelBuilder.Entity("TikKok.Data.Models.Video", b =>
                 {
                     b.Property<string>("Id")
@@ -592,6 +648,36 @@ namespace TikKok.Data.Migrations
                         .HasForeignKey("PostId");
                 });
 
+            modelBuilder.Entity("TikKok.Data.Models.UserBlock", b =>
+                {
+                    b.HasOne("TikKok.Data.Models.ApplicationUser", "BlockedUser")
+                        .WithMany()
+                        .HasForeignKey("BlockedUserId");
+
+                    b.HasOne("TikKok.Data.Models.ApplicationUser", "SourceUser")
+                        .WithMany("BlockedUsers")
+                        .HasForeignKey("SourceUserId");
+
+                    b.Navigation("BlockedUser");
+
+                    b.Navigation("SourceUser");
+                });
+
+            modelBuilder.Entity("TikKok.Data.Models.UserFollow", b =>
+                {
+                    b.HasOne("TikKok.Data.Models.ApplicationUser", "FollowedUser")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowedUserId");
+
+                    b.HasOne("TikKok.Data.Models.ApplicationUser", "SourceUser")
+                        .WithMany("Following")
+                        .HasForeignKey("SourceUserId");
+
+                    b.Navigation("FollowedUser");
+
+                    b.Navigation("SourceUser");
+                });
+
             modelBuilder.Entity("TikKok.Data.Models.Video", b =>
                 {
                     b.HasOne("TikKok.Data.Models.ApplicationUser", "Uploader")
@@ -620,7 +706,13 @@ namespace TikKok.Data.Migrations
 
             modelBuilder.Entity("TikKok.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("BlockedUsers");
+
                     b.Navigation("Claims");
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
 
                     b.Navigation("Likes");
 

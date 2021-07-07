@@ -95,7 +95,8 @@
                             {
                                 <div class="vnb__menu-options__option">
                                     @*<a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>*@
-                                    <b-avatar variant="primary" text="BV"></b-avatar>
+                                    @*<b-avatar variant="primary" text="BV"></b-avatar>*@
+                                    @SignInManager.UserManager.GetUserName(this.User)
                                 </div>
                                 <div class="vnb__menu-options__option">
                                     <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">

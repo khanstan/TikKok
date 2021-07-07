@@ -11,17 +11,21 @@
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IRepository<Like> likesRepository;
+        private readonly IRepository<UserFollow> userFollowRepository;
 
         public ListPostService(
             IDeletableEntityRepository<Post> postsRepository,
-            IRepository<Like> likesRepository)
+            IRepository<Like> likesRepository,
+            IRepository<UserFollow> userFollowRepository)
         {
             this.postsRepository = postsRepository;
             this.likesRepository = likesRepository;
+            this.userFollowRepository = userFollowRepository;
         }
 
         public IQueryable GetAll(string userId)
         {
+
             var postInfo = this.postsRepository.All().Select(y => new IndexViewModel
             {
                 PostId = y.Id,
@@ -32,7 +36,8 @@
                 Path = y.Video.Path,
                 Extension = y.Video.Extension,
                 UploadDate = y.CreatedOn,
-                UploaderId = y.Video.Uploader.UserName,
+                UploaderId = y.UserId,
+                Followed = y.User.Followers.Any(x => x.SourceUserId == userId) ? "unfollow" : "follow",
             });
 
             return postInfo;

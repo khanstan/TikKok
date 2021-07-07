@@ -41,10 +41,11 @@ namespace TikKok.Data.Models
 
         public virtual ICollection<Like> Likes { get; set; }
 
-        public ICollection<ApplicationUser> Followers { get; set; }
+        public virtual ICollection<UserFollow> Following { get; set; }
 
-        public ICollection<ApplicationUser> Following { get; set; }
+        public virtual ICollection<UserFollow> Followers { get; set; }
 
-        public ICollection<ApplicationUser> Blocked { get; set; }
+        public virtual ICollection<UserBlock> BlockedUsers { get; set; }
+
     }
 }

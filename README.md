@@ -1,7 +1,8 @@
 TODO:
+Fix cases: Don't show follow on YOURSELF.
+Follow should work for all components on page! smth like computed prop.
+Work on UserBlocks.
 
-DO MIGRATION FIRST! 
-WORK ON FOLLOWERS. use API like Likes
  
 Add comments(List them using api/Comments/ WITH GET! OR SIGNALR).
 Add sharing.
