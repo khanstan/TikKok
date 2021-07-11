@@ -5,7 +5,7 @@
     using TikKok.Data.Common.Models;
 
     public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IDeletableEntity
+        where TEntity : class, IDeletableEntityRepository
     {
         IQueryable<TEntity> AllWithDeleted();
 

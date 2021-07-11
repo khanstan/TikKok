@@ -11,21 +11,17 @@
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IRepository<Like> likesRepository;
-        private readonly IRepository<UserFollow> userFollowRepository;
 
         public ListPostService(
             IDeletableEntityRepository<Post> postsRepository,
-            IRepository<Like> likesRepository,
-            IRepository<UserFollow> userFollowRepository)
+            IRepository<Like> likesRepository)
         {
             this.postsRepository = postsRepository;
             this.likesRepository = likesRepository;
-            this.userFollowRepository = userFollowRepository;
         }
 
         public IQueryable GetAll(string userId)
         {
-
             var postInfo = this.postsRepository.All().Select(y => new IndexViewModel
             {
                 PostId = y.Id,

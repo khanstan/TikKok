@@ -164,7 +164,7 @@ body {
 
 .vnb__brand-image-wrapper__link__image {
     max-height: 45px;
-    padding-right: 20px 
+    padding-right: 20px
 }
 
 .vnb-image {
@@ -230,7 +230,7 @@ body {
 .vnb__sub-menu-options__option__link {
     padding: 12px 12px;
     width: 100%;
-    display: flex;  
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -618,9 +618,9 @@ button.accept-policy {
     margin: 10px;
 }
 
-.card-columns .card:first-child {
-    box-shadow: none;
-}
+    .card-columns .card:first-child {
+        box-shadow: none;
+    }
 
 .nav-tabs {
     background-color: #fff;
@@ -757,4 +757,84 @@ video {
 
 .like {
     text-decoration: none;
+}
+
+
+.profile-area {
+    padding: 80px 0;
+}
+
+.user-card {
+    box-shadow: 0 0 0.1rem rgba(0,0,0,0.5);
+    overflow: hidden;
+    border-radius: 1rem;
+    margin: 0 1rem 1rem 1rem;
+}
+
+.img1 img {
+    height: 10rem;
+    border-top-right-radius: 0.8rem;
+    border-top-left-radius: 0.8rem;
+    width: 100%
+}
+
+.img2 img {
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    border: 0.1rem solid #fff;
+    margin-top: -5rem
+}
+
+.user-card:hover .img2 img {
+    border-color: darkcyan;
+    transition: .7s;
+}
+
+.main-text {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.main-text h2 {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin: 0 0 2rem;
+}
+
+/*.main-text p {
+    font-size: 0.9rem;
+    padding: 0 2rem
+}*/
+
+.user-posts {
+    font-size: 0.9rem;
+    padding: 0 2rem
+}
+
+.user-likes {
+    font-size: 0.9rem;
+    padding: 0 2rem
+}
+
+.user-followers {
+    font-size: 0.9rem;
+    padding: 0 2rem
+}
+
+.socials {
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.socials i {
+    font-size: 1rem;
+    color: #008b8b;
+    padding: 0 1rem
 }

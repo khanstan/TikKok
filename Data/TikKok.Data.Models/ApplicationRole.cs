@@ -3,11 +3,10 @@ namespace TikKok.Data.Models
 {
     using System;
 
+    using Microsoft.AspNetCore.Identity;
     using TikKok.Data.Common.Models;
 
-    using Microsoft.AspNetCore.Identity;
-
-    public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
+    public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntityRepository
     {
         public ApplicationRole()
             : this(null)

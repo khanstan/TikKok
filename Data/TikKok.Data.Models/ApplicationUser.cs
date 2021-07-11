@@ -7,7 +7,7 @@ namespace TikKok.Data.Models
     using Microsoft.AspNetCore.Identity;
     using TikKok.Data.Common.Models;
 
-    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
+    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntityRepository
     {
         public ApplicationUser()
         {
@@ -46,6 +46,5 @@ namespace TikKok.Data.Models
         public virtual ICollection<UserFollow> Followers { get; set; }
 
         public virtual ICollection<UserBlock> BlockedUsers { get; set; }
-
     }
 }

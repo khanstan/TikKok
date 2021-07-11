@@ -146,11 +146,10 @@
     <script>
         var currentUser = '@SignInManager.UserManager.GetUserId(this.User)'
         Vue.component('follow-button', {
-            props: ['userToFollow', 'status', 'uploader'],
+            props: ['status', 'uploader'],
 
             data: function () {
                 return {
-                    userToFollow: this.userToFollow,
                     status: this.status,
                     uploader: this.uploader,
                     sameUser: (this.uploader == currentUser) ? false : true
@@ -161,7 +160,7 @@
                     this.status === 'unfollow' ? this.status = 'follow' : this.status = 'unfollow';
                 },
                 followButton() {
-                    let payload = { UserToFollow: this.userToFollow }
+                    let payload = { UserToFollow: this.uploader }
                     axios.post('/api/Relationship',
                         JSON.stringify(payload),
                         {
@@ -179,13 +178,8 @@
                         });
                 }
             },
-            //computed: {
-            //    Status() {
-            //        return (this.status) ? 'false' : 'true';
-            //    }
-            //},
             template:
-                    `<b-button v-if="sameUser" v-on:click="followButton" class="btn-follow" variant="outline-danger">{{this.status}}</b-button>`
+                    `<b-button v-if="sameUser" v-on:click="followButton(); $emit('toggleStatus')" class="btn-follow" variant="outline-danger">{{this.status}}</b-button>`
 })
     </script>
 

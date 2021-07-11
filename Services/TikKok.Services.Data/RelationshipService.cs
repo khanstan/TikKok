@@ -15,7 +15,7 @@
             this.userFollowRepository = userFollowRepository;
         }
 
-        public async Task SetFollowAsync(string userToFollow, string currentUser )
+        public async Task SetFollowAsync(string userToFollow, string currentUser)
         {
             var follow = this.userFollowRepository.All()
                 .FirstOrDefault(x => x.FollowedUserId == userToFollow);

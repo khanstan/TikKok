@@ -80,6 +80,9 @@
             services.AddTransient<IListProfileLikedService, ListProfileLikedService>();
             services.AddTransient<IListProfileUploadedService, ListProfileUploadedService>();
             services.AddTransient<IRelationshipService, RelationshipService>();
+            services.AddTransient<IListFollowingService, ListFollowingService>();
+            services.AddTransient<IListUserService, ListUserService>();
+            services.AddTransient<IListFollowersService, ListFollowersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

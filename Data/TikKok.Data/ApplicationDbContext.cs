@@ -41,7 +41,6 @@
 
         public DbSet<UserBlock> UsersBlocks { get; set; }
 
-
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -93,7 +92,7 @@
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+                .Where(et => et.ClrType != null && typeof(IDeletableEntityRepository).IsAssignableFrom(et.ClrType));
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
@@ -110,7 +109,7 @@
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
-            where T : class, IDeletableEntity
+            where T : class, IDeletableEntityRepository
         {
             builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
         }

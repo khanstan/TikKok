@@ -55,6 +55,7 @@
                 Video = video,
                 Description = input.Description,
                 UserId = userId,
+
                 // Tags = new Tag {
                 //    Name = "Choose appropriate tags!",
                 // },
@@ -70,7 +71,6 @@
 
             var metaData = await FFmpeg.GetMediaInfo($"wwwroot/{post.Video.Path}");
 
-
             // THIS FUNCTION CONVERTS 19:6 TO 6:19 AND ADDS BLACK TOP AND BOTTOM!!!!!!!!
 
             // if (metaData.VideoStreams.FirstOrDefault().Ratio == "6:19")
@@ -79,7 +79,6 @@
             //    FFMpegConverter wrap = new FFMpegConverter();
             //    wrap.Invoke(ffmpeg);
             // }
-
             video.Size = (int)metaData.Size;
             video.Duration = metaData.Duration;
 
