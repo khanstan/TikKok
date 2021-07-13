@@ -41,7 +41,7 @@
             var extension = Path.GetExtension(input.Video.FileName).TrimStart('.');
             if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
             {
-                throw new Exception($"Invalid image extension {extension}");
+                throw new Exception($"Invalid video extension {extension}");
             }
 
             var video = new Video

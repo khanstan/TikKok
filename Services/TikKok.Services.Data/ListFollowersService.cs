@@ -28,6 +28,7 @@
             {
                 UserId = y.Id,
                 Username = y.CredentialUsername,
+                Avatar = y.Avatar,
                 CreatedOn = y.CreatedOn,
                 Posts = y.Posts.Count(),
                 Likes = y.Likes.Count(),

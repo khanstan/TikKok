@@ -1,7 +1,9 @@
 ﻿namespace TikKok.Web.Areas.Identity.Pages.Account
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Text.Encodings.Web;
@@ -9,6 +11,8 @@
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
@@ -24,17 +28,20 @@
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment environment;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.environment = environment;
         }
 
         [BindProperty]
@@ -44,8 +51,11 @@
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-    public class InputModel
+        public class InputModel
         {
+            [Display(Name = "Avatar")]
+            public string Avatar { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -73,13 +83,27 @@
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CredentialUsername = Input.CredentialUsername };
+                if (file == null)
+                {
+                    throw new ArgumentNullException(nameof(file));
+                }
+
+                var path = $"{this.environment.WebRootPath}/avatars/";
+                Directory.CreateDirectory(path);
+                var fileName = Path.GetFileName(file.FileName);
+                var randomName = Guid.NewGuid();
+                var extension = Path.GetExtension(fileName).TrimStart('.');
+                var physicalPath = $"{path}/{randomName}.{extension}";
+                using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
+                await file.CopyToAsync(fileStream);
+
+                var user = new ApplicationUser { Avatar = $"/avatars/{randomName}.{extension}", UserName = Input.Email, Email = Input.Email, CredentialUsername = Input.CredentialUsername };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

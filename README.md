@@ -1,10 +1,14 @@
 TODO:
+
+Implement avatars.
+
+
+
 Work on UserBlocks.
 
 Add comments(List them using api/Comments/ WITH GET! OR SIGNALR).
 Add sharing.
 Add Messaging.
-Implement avatars.
 Work on ffmpeg to convert uploaded videos to mp4.
 Work on UI - pagination, modals.
 

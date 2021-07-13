@@ -22,6 +22,8 @@ namespace TikKok.Data.Models
         // Audit info
         public string CredentialUsername { get; set; }
 
+        public string Avatar { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
@@ -46,5 +48,6 @@ namespace TikKok.Data.Models
         public virtual ICollection<UserFollow> Followers { get; set; }
 
         public virtual ICollection<UserBlock> BlockedUsers { get; set; }
+
     }
 }
