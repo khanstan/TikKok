@@ -3,6 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.Drawing.Text;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -24,6 +28,9 @@
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+        private List<string> backgroundColours = new List<string> { "339966", "3366CC", "CC33FF", "FF5050" };
+
+
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -53,9 +60,6 @@
 
         public class InputModel
         {
-            [Display(Name = "Avatar")]
-            public string Avatar { get; set; }
-
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -77,34 +81,51 @@
             public string ConfirmPassword { get; set; }
         }
 
+        public string GenerateAvatar(string username)
+        {
+            var avatarString = string.Format("{0}{1}", username[0], username[1]).ToUpper();
+
+            var randomIndex = new Random().Next(0, this.backgroundColours.Count - 1);
+            var bgColour = this.backgroundColours[randomIndex];
+
+            var bmp = new Bitmap(192, 192);
+            var sf = new StringFormat();
+            sf.Alignment = StringAlignment.Center;
+            sf.LineAlignment = StringAlignment.Center;
+
+            var font = new Font("Arial", 72, FontStyle.Bold, GraphicsUnit.Pixel);
+            var graphics = Graphics.FromImage(bmp);
+
+            graphics.Clear(Color.Transparent);
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            using (Brush b = new SolidBrush(ColorTranslator.FromHtml("#" + bgColour)))
+            {
+                graphics.FillEllipse(b, new Rectangle(0, 0, 192, 192));
+            }
+
+            graphics.DrawString(avatarString, font, new SolidBrush(Color.WhiteSmoke), 95, 100, sf);
+            graphics.Flush();
+            var randomName = Guid.NewGuid();
+            bmp.Save($"{this.environment.WebRootPath}/avatars/{randomName}.png", ImageFormat.Png);
+            var path = $"/avatars/{randomName}.png";
+            return path;
+        }
+
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            this.ReturnUrl = returnUrl;
+            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+            returnUrl ??= this.Url.Content("~/");
+            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (this.ModelState.IsValid)
             {
-                if (file == null)
-                {
-                    throw new ArgumentNullException(nameof(file));
-                }
-
-                var path = $"{this.environment.WebRootPath}/avatars/";
-                Directory.CreateDirectory(path);
-                var fileName = Path.GetFileName(file.FileName);
-                var randomName = Guid.NewGuid();
-                var extension = Path.GetExtension(fileName).TrimStart('.');
-                var physicalPath = $"{path}/{randomName}.{extension}";
-                using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
-                await file.CopyToAsync(fileStream);
-
-                var user = new ApplicationUser { Avatar = $"/avatars/{randomName}.{extension}", UserName = Input.Email, Email = Input.Email, CredentialUsername = Input.CredentialUsername };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var user = new ApplicationUser { Avatar = this.GenerateAvatar(this.Input.CredentialUsername), UserName = this.Input.Email, Email = this.Input.Email, CredentialUsername = this.Input.CredentialUsername };
+                var result = await this._userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

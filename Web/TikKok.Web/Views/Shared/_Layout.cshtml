@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
+    @RenderSection("styles", false);
 
     <!-- Load required Bootstrap and BootstrapVue CSS -->
     @*<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />*@
@@ -91,13 +92,14 @@
                                     </a>
                                 </div>
                             }
+
                             @if (this.SignInManager.IsSignedIn(this.User))
                             {
-                                <div class="vnb__menu-options__option">
-                                    @*<a class="avatar" style="background-image: url('https://yt3.ggpht.com/a/AATXAJw5HHp09qO4EFF8s4fltqkZvf5D5E2_6rpTZ_LI2w=s900-c-k-c0xffffffff-no-rj-mo')"></a>*@
-                                    @*<b-avatar variant="primary" text="BV"></b-avatar>*@
-                                    @SignInManager.UserManager.GetUserName(this.User)
-                                </div>
+                        <div class="vnb__menu-options__option">
+                            @((await SignInManager.UserManager.GetUserAsync(this.User)).CredentialUsername)
+                            <img class="avatar" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" height="20px" width="20px" alt="Alternate Text" />
+
+                        </div>
                                 <div class="vnb__menu-options__option">
                                     <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">
                                         <!---->
@@ -108,6 +110,7 @@
 
                             }
                         </div>
+
                         <button id="collapse" type="button" aria-expanded="false" class="vnb__collapse-button"><svg height="100pt" preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100" width="100pt" xmlns="http://www.w3.org/2000/svg" class="vnb__collapse-button__image" style="fill: rgb(102, 28, 35);"><title>Menu</title> <g transform="matrix(.1 0 0 -.1 0 100)"><path d="m0 850v-40h500 500v40 40h-500-500z"></path> <path d="m0 495v-45h500 500v45 45h-500-500z"></path> <path d="m0 140v-40h500 500v40 40h-500-500z"></path></g></svg></button>
                         <div id="vnb__popup" class="vnb__popup" style="">
                             <div class="vnb__popup__top">
@@ -182,7 +185,6 @@
                                                 <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
                                             </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
 
-                                            <b-avatar variant="primary" text="BV"></b-avatar>
                                         </li>
 
 

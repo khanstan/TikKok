@@ -3,6 +3,8 @@ namespace TikKok.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
     using TikKok.Data.Common.Models;
@@ -48,6 +50,5 @@ namespace TikKok.Data.Models
         public virtual ICollection<UserFollow> Followers { get; set; }
 
         public virtual ICollection<UserBlock> BlockedUsers { get; set; }
-
     }
 }
