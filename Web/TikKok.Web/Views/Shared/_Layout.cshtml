@@ -12,11 +12,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
-    @RenderSection("styles", false);
+    @RenderSection("styles", false)
 
     <!-- Load required Bootstrap and BootstrapVue CSS -->
     @*<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />*@
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
 
     <!-- Load Vue followed by BootstrapVue -->
     <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
@@ -26,10 +27,12 @@
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
     @*Vue*@
-    <!--<link rel="stylesheet" href="~/dist/style.min.css" />
-    <link rel="stylesheet" href="~/dist/master.min.css" />-->
+    @*<link rel="stylesheet" href="~/dist/style.min.css" />
+    <link rel="stylesheet" href="~/dist/master.min.css" />*@
     @*Vue*@
+
 </head>
 <body>
     <div id="app">
@@ -95,11 +98,11 @@
 
                             @if (this.SignInManager.IsSignedIn(this.User))
                             {
-                        <div class="vnb__menu-options__option">
-                            @((await SignInManager.UserManager.GetUserAsync(this.User)).CredentialUsername)
-                            <img class="avatar" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" height="20px" width="20px" alt="Alternate Text" />
+                                <div class="vnb__menu-options__option">
+                                    @((await SignInManager.UserManager.GetUserAsync(this.User)).CredentialUsername)
+                                    <img class="avatar" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" height="20px" width="20px" alt="Alternate Text" />
 
-                        </div>
+                                </div>
                                 <div class="vnb__menu-options__option">
                                     <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">
                                         <!---->
@@ -119,43 +122,36 @@
                             </div> <div class="vnb__popup__bottom">
                                 <!----> <ul class="vnb__popup__bottom__menu-options">
                                     <li class="vnb__popup__bottom__menu-options__option">
-                                        <span class="vnb__popup__bottom__menu-options__option__link vnb__popup__bottom__menu-options__option__link--no-highlight">Why Dunder Mifflin</span> <div class="vnb__popup__bottom__sub-menu-options">
-                                            <div class="vnb__popup__bottom__sub-menu-options__option">
-                                                <a href="#/about" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="About">
-                                                    About
-                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text">Stupid corporate wet blankets. Like booze ever killed anyone.</span>
-                                                </a>
-                                            </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
-                                                <a href="#/locations" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Locations">
-                                                    Locations
-                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text">You're a presentation tool!</span>
-                                                </a>
-                                            </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
-                                                <a href="#/blog" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Blog">
-                                                    Blog
-                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text">I enjoy having breakfast in bed. I like waking up to the smell of bacon. Sue me.</span>
-                                                </a>
-                                            </div>
+                                        <span class="vnb__popup__bottom__menu-options__option__link vnb__popup__bottom__menu-options__option__link--no-highlight">User Area</span>
+                                        <div class="vnb__popup__bottom__sub-menu-options__option">
+                                            <a href="/Video/Upload">
+                                                <div class="vnb__menu-options__option__link">
+                                                    <img src="~/assets/takeVideoIcon.svg" height="23" width="23" />
+                                                    Upload
+                                                </div>
+                                            </a>
+                                        </div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                            <a href="/Inbox">
+                                                <div class="vnb__menu-options__option__link">
+                                                    <img src="~/assets/inbox.png" height="23" width="23" />
+                                                    Inbox
+                                                </div>
+                                            </a>
+                                        </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                            <a href="/Followers/Following">
+                                                <div class="vnb__menu-options__option__link">
+                                                    <img src="~/assets/followers.png" height="23" width="23" />
+                                                    Followers
+                                                </div>
+                                            </a>
                                         </div>
-                                    </li>
-                                    <li class="vnb__popup__bottom__menu-options__option">
-                                        <span class="vnb__popup__bottom__menu-options__option__link vnb__popup__bottom__menu-options__option__link--no-highlight">Contact</span> <div class="vnb__popup__bottom__sub-menu-options">
-                                            <div class="vnb__popup__bottom__sub-menu-options__option">
-                                                <a href="#/customer-service" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Customer Service">
-                                                    Customer Service
-                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text"></span>
-                                                </a>
-                                            </div><div class="vnb__popup__bottom__sub-menu-options__option">
-                                                <a href="#/accounting" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Accounting">
-                                                    Accounting
-                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text"></span>
-                                                </a>
-                                            </div><div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
-                                                <a href="#/reception" class="vnb__popup__bottom__sub-menu-options__option__link" aria-label="Reception">
-                                                    Reception
-                                                    <span class="vnb__popup__bottom__sub-menu-options__option__link__sub-text"></span>
-                                                </a>
-                                            </div>
+                                        <div class="vnb__popup__bottom__sub-menu-options__option"><!----></div><div class="vnb__popup__bottom__sub-menu-options__option">
+                                            <a href="/Profile/Uploaded">
+                                                <div class="vnb__menu-options__option__link">
+                                                    <img src="~/assets/profile.png" height="23" width="23" />
+                                                    View Profile
+                                                </div>
+                                            </a>
                                         </div>
                                     </li>
                                     @if (!this.SignInManager.IsSignedIn(this.User))
@@ -186,31 +182,29 @@
                                             </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
 
                                         </li>
-
-
-
                                     }
                                 </ul>
                             </div>
                         </div>
                     </nav>
-                </div>
-            </section>
-        </header>
 
-        <div class="container">
-            <partial name="_CookieConsentPartial" />
-            <main role="main" class="pb-3">
-                @this.RenderBody()
-            </main>
-        </div>
+                </div>
+    </section>
+    </header>
+
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @this.RenderBody()
+        </main>
+    </div>
     </div>
 
     @*<footer class="footer text-muted fixed-bottom">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
+            <div class="container">
+                &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
@@ -221,8 +215,8 @@
 
     @*Vue*@
 
-    <!--<script src="~/dist/vendor.min.js"></script>
-    <script src="~/dist/master.min.js"></script>-->
+    <script src="~/dist/vendor.min.js"></script>
+    <script src="~/dist/master.min.js"></script>
     @*Vue*@
 
     @await this.RenderSectionAsync("Scripts", required: false)

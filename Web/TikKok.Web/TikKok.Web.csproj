@@ -52,4 +52,8 @@
     <ProjectReference Include="..\TikKok.Web.Infrastructure\TikKok.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\TikKok.Web.ViewModels\TikKok.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\dist\" />
+  </ItemGroup>
 </Project>

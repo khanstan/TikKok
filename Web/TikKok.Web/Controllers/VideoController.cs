@@ -1,5 +1,6 @@
 ﻿namespace TikKok.Web.Controllers
 {
+    using System.IO;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -40,7 +41,14 @@
         {
             var user = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            await this.videoUploadService.CreateAsync(input, user, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
+            //FIX THIS!. Deletes 9:16 videos when not converted :(
+
+            var path = await this.videoUploadService.CreateAsync(input, user, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
+
+            if (path != null)
+            {
+                System.IO.File.Delete(path);
+            }
 
             this.TempData["Message"] = "Video added successfully.";
 

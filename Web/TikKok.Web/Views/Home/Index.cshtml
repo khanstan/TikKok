@@ -17,12 +17,14 @@
 }
 
 
+
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
 <div id="vueAppPost" class="container-fluid h-100 d-flex flex-column">
+
     <div class="col-md-6 col-sm-11 justify-content-center" style="margin: auto">
         @foreach (var post in this.Model)
         {
@@ -57,7 +59,8 @@
                                 0
                             </p>
                             <b-modal id="@("modal-" + post.PostId)" title="BootstrapVue">
-                                <p class="my-4">Hello from modal!</p>
+
+                                @*<div class="commentsModal"></div>*@
                             </b-modal>
                         </div>
 
@@ -72,6 +75,7 @@
 
                     </div>
 
+                    <comment-grid></comment-grid>
 
                     <div class="card-footer">
                         <p class="card-text">@post.Description</p>
@@ -89,6 +93,9 @@
 
 
 @section Scripts {
+
+
+
     <script>
         Vue.component('like-button', {
             props: ['postId', 'likes', 'liked'],
