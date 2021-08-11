@@ -257,6 +257,9 @@ namespace TikKok.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CommentText")
                         .HasColumnType("nvarchar(max)");
 
@@ -272,22 +275,22 @@ namespace TikKok.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("VideoId")
+                    b.Property<int>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("VideoId1")
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PostId");
 
-                    b.HasIndex("VideoId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -601,17 +604,17 @@ namespace TikKok.Data.Migrations
 
             modelBuilder.Entity("TikKok.Data.Models.Comment", b =>
                 {
+                    b.HasOne("TikKok.Data.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId");
+
                     b.HasOne("TikKok.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.HasOne("TikKok.Data.Models.Post", "Video")
-                        .WithMany("Comments")
-                        .HasForeignKey("VideoId1");
+                    b.Navigation("Post");
 
                     b.Navigation("User");
-
-                    b.Navigation("Video");
                 });
 
             modelBuilder.Entity("TikKok.Data.Models.Like", b =>

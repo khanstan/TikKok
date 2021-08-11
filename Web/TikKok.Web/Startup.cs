@@ -83,6 +83,8 @@
             services.AddTransient<IListFollowingService, ListFollowingService>();
             services.AddTransient<IListUserService, ListUserService>();
             services.AddTransient<IListFollowersService, ListFollowersService>();
+            services.AddTransient<ICommentsService, CommentsService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

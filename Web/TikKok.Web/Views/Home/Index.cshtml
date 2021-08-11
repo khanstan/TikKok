@@ -58,9 +58,10 @@
                                 <br />
                                 0
                             </p>
-                            <b-modal id="@("modal-" + post.PostId)" title="BootstrapVue">
-
-                                @*<div class="commentsModal"></div>*@
+                            <b-modal id="@("modal-" + post.PostId)" size="xl" title="BootstrapVue" cancel-disabled ok-disabled>
+                                <b-embed type="iframe"
+                                         src="/Comments/Test"
+                                         aspect="1by1"></b-embed>
                             </b-modal>
                         </div>
 
@@ -93,8 +94,6 @@
 
 
 @section Scripts {
-
-
 
     <script>
         Vue.component('like-button', {

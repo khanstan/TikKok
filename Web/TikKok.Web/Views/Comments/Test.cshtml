@@ -1,0 +1,205 @@
+﻿@using TikKok.Common
+@{
+    this.ViewData["Title"] = "Comments";
+    this.Layout = null;
+}
+
+@using TikKok.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@functions
+{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" asp-append-version="false" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" asp-append-version="false" />
+
+    <link rel="stylesheet" href="~/css/comments.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+    <hr><div class="container mb-5 mt-5">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center mb-5">Comment Section</h3>
+                    @*TEXT BOX START*@
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <textarea cols="15" id="commentInput" class="form-control" placeholder="Add new comment"></textarea>
+                            </div>
+                            <div class="panel-heading comment-action">
+                                <div class="submit-comment">
+                                    <a id="addNewCommentBtn" href="#">Submit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*TEXT BOX END*@
+                    <div class="row">
+                        <div id="commentsContainer" class="col-md-12">
+                            @foreach (var comment in this.Model)
+                            {
+                                @*START FIRST COMMENT*@
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" src="@comment.User.Avatar" />
+
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-8 d-flex">
+                                                <h5>@@@comment.User.CredentialUsername</h5> <span>- @comment.CommentDate minutes ago</span>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="pull-right reply"> <a href="#" class="openReplyForm"><span><i class="fa fa-reply" data-username="@comment.User.CredentialUsername" data-comment-id=@comment.CommentId></i> reply</span></a> </div>
+                                            </div>
+                                        </div>
+                                        @comment.CommentText
+                                        @*START FIRST REPLY*@
+                                        @if (comment.ChildComments.Count > 0)
+                                        {
+                                            foreach (var childComment in comment.ChildComments)
+                                            {
+                                                <div class="media mt-4">
+                                                    <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" src="@childComment.User.Avatar" /></a>
+                                                    <div class="media-body">
+                                                        <div class="row">
+                                                            <div class="col-12 d-flex">
+                                                                <h5>@childComment.User.CredentialUsername</h5> <span>- @childComment.CommentDate</span>
+                                                            </div>
+                                                        </div>
+                                                        @childComment.CommentText
+                                                    </div>
+                                                </div>
+                                                @*END FIRST REPLY*@
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                                @*END FIRST COMMENT*@
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addNewComment(data) {
+
+            return axios.post('@Url.Action("AddNewComment", "Comments")',
+                        data,
+                        {
+                            headers: {
+                                "RequestVerificationToken": "@GetAntiXsrfRequestToken()",
+                                'Content-Type': 'application/json',
+                            }
+                        })
+        }
+
+        function addNewReply(data) {
+
+            return axios.post('@Url.Action("AddNewComment", "Comments")',
+            data,
+            {
+                headers: {
+                    "RequestVerificationToken": "@GetAntiXsrfRequestToken()",
+                    'Content-Type': 'application/json',
+                }
+            })
+        }
+
+
+    $(function () {
+        $("#addNewCommentBtn").click(function (e) {
+            e.preventDefault();
+            var data = {
+                ParentId: 0,
+                CommentText: $("#commentInput").val(),
+                PostId: "66ed34d2-dd76-4316-9bd2-fe783d0aad18",
+            };
+            $.when(addNewComment(data)).then(function (response) {
+                var commentHtml = `
+        <div class="media">
+                                    <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" />
+
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-8 d-flex">
+                                                <h5>@@@((await SignInManager.UserManager.GetUserAsync(this.User)).CredentialUsername)</h5> <span>- 0 minutes ago</span>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="pull-right reply"> <a href="#" class="openReplyForm"><span><i class="fa fa-reply"></i> reply</span></a> </div>
+                                            </div>
+                                        </div>
+                                        ${$("#commentInput").val()}
+                                    </div>
+                                </div>
+`
+                $("#commentsContainer").prepend(commentHtml);
+                $("#commentInput").val('');
+            }).fail(function (err) {
+                alert(err);
+            })
+        });
+
+        $("#addReplyBtn").click(function (e) {
+            e.preventDefault();
+            var data = {
+                ParentId: this.dataset.parentId,
+                CommentText: $("#commentInput").val(),
+                PostId: "66ed34d2-dd76-4316-9bd2-fe783d0aad18",
+            };
+            console.log(this.dataset.parentId);
+            $.when(addNewReply(data)).then(function (response) {
+                var commentHtml = `
+        <div class="media">
+                                    <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" />
+
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-8 d-flex">
+                                                <h5>@@@((await SignInManager.UserManager.GetUserAsync(this.User)).CredentialUsername)</h5> <span>- 0 minutes ago</span>
+                                            </div>
+                                        </div>
+                                        ${$("#commentInput").val()}
+                                    </div>
+                                </div>
+`
+                $("#commentsContainer").prepend(commentHtml);
+                $("#commentInput").val('');
+            }).fail(function (err) {
+                alert(err);
+            })
+        });
+
+        $(document).on("click", ".openReplyForm", function (e) {
+            e.preventDefault();
+            $("#commentInput").attr("placeholder", `Reply to @@${this.children[0].children[0].dataset.username}`).val("").focus();
+            $("#addNewCommentBtn").attr("data-parent-id", this.children[0].children[0].dataset.commentId)
+            $("#addNewCommentBtn").attr("id", "addReplyBtn")
+
+        });
+    });
+    </script>
+
+</body>
+</html>
