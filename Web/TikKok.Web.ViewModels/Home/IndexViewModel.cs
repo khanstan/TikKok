@@ -16,6 +16,8 @@
 
         public int Likes { get; set; }
 
+        public int Comments { get; set; }
+
         public string Liked { get; set; }
 
         public string UploaderId { get; set; }

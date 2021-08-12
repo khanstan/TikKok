@@ -18,10 +18,17 @@
             this.commentsService = commentsService;
         }
 
-        public IActionResult Test(CommentsViewModel model)
+        public IActionResult Test(string id)
         {
-            var postId = "66ed34d2-dd76-4316-9bd2-fe783d0aad18";
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var postId = id;
+
             var viewModel = this.commentsService.GetAll(postId);
+            this.ViewBag.PostId = postId;
 
             return this.View(viewModel);
         }
@@ -31,8 +38,6 @@
         public async Task<ActionResult<CommentsViewModel>> AddNewComment([FromBody] CommentsInputModel input)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            //var deserialized = Newtonsoft.Json.Linq.JObject.Parse(input);
 
             var model = await this.commentsService.AddComment(input, userId);
 

@@ -54,7 +54,6 @@
                     ParentId = x.ParentId,
                     CommentDate = DateTime.Now.Subtract(x.CommentDate).TotalMinutes.ToString("N0"),
                     User = x.User,
-                    ChildComments = this.commentsRepository.All().Where(y => y.ParentId == x.Id).ToList(),
                 });
             return viewModel;
         }

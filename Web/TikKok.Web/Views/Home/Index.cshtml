@@ -58,9 +58,9 @@
                                 <br />
                                 0
                             </p>
-                            <b-modal id="@("modal-" + post.PostId)" size="xl" title="BootstrapVue" cancel-disabled ok-disabled>
+                            <b-modal id="@("modal-" + post.PostId)" size="lg" hide-footer hide-header>
                                 <b-embed type="iframe"
-                                         src="/Comments/Test"
+                                         src="@("/Comments/Test/" + post.PostId)"
                                          aspect="1by1"></b-embed>
                             </b-modal>
                         </div>
