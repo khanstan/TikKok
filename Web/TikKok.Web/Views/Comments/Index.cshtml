@@ -1,0 +1,123 @@
+﻿@using TikKok.Common
+@{
+    this.ViewData["Title"] = "Comments";
+    this.Layout = null;
+}
+
+@using TikKok.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@functions
+{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" asp-append-version="false" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" asp-append-version="false" />
+
+    <link rel="stylesheet" href="~/css/comments.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center mb-5">Comment Section</h3>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <textarea maxlength="1024" cols="15" id="commentInput" class="form-control" placeholder="Add new comment"></textarea>
+                        </div>
+                        <div class="panel-heading comment-action">
+                            <div class="submit-comment">
+                                <a id="addNewCommentBtn" href="#">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="commentsContainer" class="col-md-12">
+                        @foreach (var comment in this.Model)
+                        {
+                            <div class="media">
+                                <img class="mr-3 rounded-circle" alt="User avatar" src="@comment.User.Avatar" />
+
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-8 d-flex">
+                                            <h5>@@@comment.User.CredentialUsername</h5> <span>- @comment.CommentDate minutes ago</span>
+                                        </div>
+                                    </div>
+                                    @comment.CommentText
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addNewComment(data) {
+
+            return axios.post('@Url.Action("AddNewComment", "Comments")',
+                data,
+                {
+                    headers: {
+                        "RequestVerificationToken": "@GetAntiXsrfRequestToken()",
+                        'Content-Type': 'application/json',
+                    }
+                });
+        }
+
+
+        $("#addNewCommentBtn").click(function (e) {
+            e.preventDefault();
+            var data = {
+                ParentId: 0,
+                CommentText: $("#commentInput").val(),
+                PostId: "@ViewBag.PostId",
+            }
+            $.when(addNewComment(data)).then(function (response) {
+                var commentHtml = `
+        <div class="media">
+                                    <img class="mr-3 rounded-circle" alt="User avatar" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" />
+
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-8 d-flex">
+                                                <h5>@@@((await SignInManager.UserManager.GetUserAsync(this.User)).CredentialUsername)</h5> <span>- 0 minutes ago</span>
+                                            </div>
+                                        </div>
+                                        ${$("#commentInput").val()}
+                                    </div>
+                                </div>
+`;
+                $("#commentsContainer").prepend(commentHtml);
+                $("#commentInput").val('');
+            }).fail(function (err) {
+                alert(err);
+            });
+        });
+    </script>
+
+</body>
+</html>

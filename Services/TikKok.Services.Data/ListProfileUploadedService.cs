@@ -23,6 +23,7 @@
                 CredentialUsername = y.Video.Uploader.CredentialUsername,
                 Description = y.Description,
                 Likes = y.Likes.Count(),
+                Comments = y.Comments.Count(),
                 Liked = "red",
                 Path = y.Video.Path,
                 UploadDate = y.CreatedOn,

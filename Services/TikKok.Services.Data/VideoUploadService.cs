@@ -14,7 +14,7 @@
 
     public class VideoUploadService : IVideoUploadService
     {
-        private readonly string[] allowedExtensions = new[] { "mp4", "avi" };
+        private readonly string[] allowedExtensions = new[] { "mp4" };
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IDeletableEntityRepository<Video> videosRepository;
         private readonly UserManager<ApplicationUser> userManager;
@@ -34,6 +34,7 @@
 
         public async Task<string> CreateAsync(UploadVideoInputModel input, string userId, string videoPath, string rootPath)
         {
+            //FFmpegDownloader.GetLatestVersion(FFmpegVersion.Official);
             // /wwwroot/videos/videos/jhdsi-343g3h453-=g34g.jpg
             FFmpeg.SetExecutablesPath(rootPath);
             Directory.CreateDirectory($"{videoPath}/videos/");
@@ -67,24 +68,24 @@
 
             using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
             await input.Video.CopyToAsync(fileStream);
-            
+
             var metaData = await FFmpeg.GetMediaInfo(physicalPath);
             var randomName = Guid.NewGuid();
             var isConverted = false;
 
-            if (metaData.VideoStreams.FirstOrDefault().Ratio != "9:16")
-            {
-                video.Path = $"/videos/videos/converted_{randomName}.mp4";
+            //if (metaData.VideoStreams.FirstOrDefault().Ratio != "9:16")
+            //{
+            //    video.Path = $"/videos/videos/converted_{randomName}.mp4";
 
-                var converted = await FFmpeg.Conversions.New()
-                .AddStream(metaData.Streams)
-                .AddParameter($"-b:a 64k -ar 44.1k -movflags faststart -c:v libx264 -strict -2 -s 540x952 -psy 1 -psy-rd 1.00:0.00 -chromaoffset -2 -threads 30 -maxrate 4000k -bufsize 8000k -preset ultrafast -crf  24 {videoPath}/videos/converted_{randomName}.mp4")
-                .Start();
-                isConverted = true;
-            } else
-            {
+            //    var converted = await FFmpeg.Conversions.New()
+            //    .AddStream(metaData.Streams)
+            //    .AddParameter($"-b:a 64k -ar 44.1k -movflags faststart -c:v libx264 -strict -2 -s 540x952 -psy 1 -psy-rd 1.00:0.00 -chromaoffset -2 -threads 30 -maxrate 4000k -bufsize 8000k -preset ultrafast -crf  24 {videoPath}/videos/converted_{randomName}.mp4")
+            //    .Start();
+            //    isConverted = true;
+            //} else
+            //{
                 video.Path = $"/videos/videos/{video.Id}.{extension}";
-            }
+            //}
 
             // THIS FUNCTION CONVERTS 19:6 TO 6:19 AND ADDS BLACK TOP AND BOTTOM!!!!!!!!
 

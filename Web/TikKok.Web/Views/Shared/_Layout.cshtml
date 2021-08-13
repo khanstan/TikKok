@@ -99,11 +99,10 @@
 
                                 </div>
                                 <div class="vnb__menu-options__option">
-                                    <a href="/Identity/Account/Logout" class="vnb__menu-options__option__button vnb-button" aria-label="Logout">
-                                        <!---->
-                                        Logout
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" onsubmit="return confirm('Are you sure you want to logout?');">
+                                        <button style="border: none" type="submit" class="vnb__menu-options__option__button vnb-button">Logout</button>
                                         <span class="vnb__menu-options__option__button__icon vnb__menu-options__option__button__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
-                                    </a>
+                                    </form>
                                 </div>
 
                             }
@@ -153,14 +152,14 @@
                                     {
                                         <li class="vnb__popup__bottom__menu-options__option">
 
-                                            <a href="#/signup" class="vnb__popup__bottom__menu-options__option__link button-red" aria-label="Signup">
+                                            <a href="/Identity/Account/Register" class="vnb__popup__bottom__menu-options__option__link button-red" aria-label="Signup">
                                                 <!---->
                                                 Signup
                                                 <!---->
                                             </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
                                         </li>
                                         <li class="vnb__popup__bottom__menu-options__option">
-                                            <a href="#/login" class="vnb__popup__bottom__menu-options__option__link" aria-label="Login">
+                                            <a href="/Identity/Account/Login" class="vnb__popup__bottom__menu-options__option__link" aria-label="Login">
                                                 <!---->
                                                 Login
                                                 <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
@@ -170,11 +169,11 @@
                                     @if (this.SignInManager.IsSignedIn(this.User))
                                     {
                                         <li class="vnb__popup__bottom__menu-options__option">
-                                            <a href="/Identity/Account/Logout" class="vnb__popup__bottom__menu-options__option__link" aria-label="Logout">
-                                                <!---->
-                                                Logout
-                                                <span class="vnb__popup__bottom__menu-options__option__link__icon vnb__popup__bottom__menu-options__option__link__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
-                                            </a> <div class="vnb__popup__bottom__sub-menu-options"></div>
+                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" onsubmit="return confirm('Are you sure you want to logout?');">
+                                                <button style="border: none" type="submit" class="vnb__menu-options__option__button vnb-button">Logout</button>
+                                                <span class="vnb__menu-options__option__button__icon vnb__menu-options__option__button__icon--right"><svg id="i-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M22 6 L30 16 22 26 M30 16 L2 16"></path> </svg></span>
+                                            </form>
+                                            <div class="vnb__popup__bottom__sub-menu-options"></div>
 
                                         </li>
                                     }
@@ -184,15 +183,15 @@
                     </nav>
 
                 </div>
-    </section>
-    </header>
+            </section>
+        </header>
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
-    </div>
+        <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @this.RenderBody()
+            </main>
+        </div>
     </div>
 
     @*<footer class="footer text-muted fixed-bottom">

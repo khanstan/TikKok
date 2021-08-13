@@ -23,8 +23,6 @@
             this.countsService = countsService;
             this.listPostService = listPostService;
             this.userManager = userManager;
-
-            // this.mapper = mapper;
         }
 
         public IActionResult Index(IndexViewModel model)

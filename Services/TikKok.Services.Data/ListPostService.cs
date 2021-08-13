@@ -22,7 +22,7 @@
 
         public IQueryable GetAll(string userId)
         {
-            var postInfo = this.postsRepository.All().Select(y => new IndexViewModel
+            var postInfo = this.postsRepository.All().OrderByDescending(d => d.CreatedOn).Select(y => new IndexViewModel
             {
                 PostId = y.Id,
                 CredentialUsername = y.Video.Uploader.CredentialUsername,
@@ -42,7 +42,7 @@
 
         public IQueryable GetAll()
         {
-            var postInfo = this.postsRepository.All().Select(y => new IndexViewModel
+            var postInfo = this.postsRepository.All().OrderByDescending(d => d.CreatedOn).Select(y => new IndexViewModel
             {
                 PostId = y.Id,
                 CredentialUsername = y.Video.Uploader.CredentialUsername,

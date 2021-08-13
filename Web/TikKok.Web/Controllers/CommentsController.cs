@@ -18,7 +18,7 @@
             this.commentsService = commentsService;
         }
 
-        public IActionResult Test(string id)
+        public IActionResult Index(string id)
         {
             if (id == null)
             {

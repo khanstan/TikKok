@@ -10,9 +10,13 @@
 
         public string CredentialUsername { get; set; }
 
+        public string UploaderId { get; set; }
+
         public DateTime UploadDate { get; set; }
 
         public int Likes { get; set; }
+
+        public int Comments { get; set; }
 
         public string Liked { get; set; }
 
