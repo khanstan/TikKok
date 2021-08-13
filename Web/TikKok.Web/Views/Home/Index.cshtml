@@ -3,6 +3,7 @@
     this.ViewData["Title"] = "Home Page";
 }
 @using TikKok.Data.Models
+@model TikKok.Web.ViewModels.Home.PagerViewModel; 
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims;
 @inject SignInManager<ApplicationUser> SignInManager
@@ -26,7 +27,7 @@
 <div id="vueAppPost" class="container-fluid h-100 d-flex flex-column">
 
     <div class="col-md-6 col-sm-11 justify-content-center" style="margin: auto">
-        @foreach (var post in this.Model)
+        @foreach (var post in Model.Items)
         {
             <div class="cards-spacing">
                 <div class="card text-center">
@@ -95,6 +96,39 @@
                     </div>
                 </div>
             </div>
+        }
+
+        <!-- pager -->
+        @if (Model.Pager.EndPage > 1)
+        {
+            <ul class="pagination justify-content-center">
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="~/Home/Index">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="~/Home/Index?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                    </li>
+                }
+
+                @for (var p = Model.Pager.StartPage; p <= Model.Pager.EndPage; p++)
+                {
+                    <li class="@(p == Model.Pager.CurrentPage ? "active" : "") page-item">
+                        <a class="page-link" href="~/Home/Index?page=@p">@p</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="~/Home/Index?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="~/Home/Index?page=@(Model.Pager.TotalPages)">Last</a>
+                    </li>
+                }
+            </ul>
         }
     </div>
 </div>

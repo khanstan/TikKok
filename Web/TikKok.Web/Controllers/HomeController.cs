@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -25,19 +26,30 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Index(IndexViewModel model)
+        public IActionResult Index(int? page)
         {
-            if (this.User.Identity.IsAuthenticated)
+            var dummyItems = this.listPostService.GetAll();
+            var pager = new Pager(dummyItems.Count(), page);
+
+            var viewModel = new PagerViewModel
             {
-                var test = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var viewModel = this.listPostService.GetAll(test);
-                return this.View(viewModel);
-            }
-            else
-            {
-                var viewModel = this.listPostService.GetAll();
-                return this.View(viewModel);
-            }
+                Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager,
+            };
+
+            return this.View(viewModel);
+
+            //if (this.User.Identity.IsAuthenticated)
+            //{
+            //    var test = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //    var viewModel = this.listPostService.GetAll(test);
+            //    return this.View(viewModel);
+            //}
+            //else
+            //{
+            //    var viewModel = this.listPostService.GetAll();
+            //    return this.View(viewModel);
+            //}
         }
 
         [HttpPost]

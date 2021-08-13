@@ -3,11 +3,13 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using TikKok.Web.ViewModels.Home;
+
     public interface IListPostService
     {
-        IQueryable GetAll();
+        IQueryable<IndexViewModel> GetAll();
 
-        IQueryable GetAll(string userId);
+        IQueryable<IndexViewModel> GetAll(string userId);
 
         Task DeleteAsync(string id);
     }

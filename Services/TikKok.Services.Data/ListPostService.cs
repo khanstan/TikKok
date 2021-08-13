@@ -1,5 +1,6 @@
 ﻿namespace TikKok.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@
             this.likesRepository = likesRepository;
         }
 
-        public IQueryable GetAll(string userId)
+        public IQueryable<IndexViewModel> GetAll(string userId)
         {
             var postInfo = this.postsRepository.All().OrderByDescending(d => d.CreatedOn).Select(y => new IndexViewModel
             {
@@ -40,7 +41,7 @@
             return postInfo;
         }
 
-        public IQueryable GetAll()
+        public IQueryable<IndexViewModel> GetAll()
         {
             var postInfo = this.postsRepository.All().OrderByDescending(d => d.CreatedOn).Select(y => new IndexViewModel
             {
@@ -87,5 +88,6 @@
             await this.postsRepository.SaveChangesAsync();
             await this.likesRepository.SaveChangesAsync();
         }
+
     }
 }
