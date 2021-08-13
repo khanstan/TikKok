@@ -28,28 +28,34 @@
 
         public IActionResult Index(int? page)
         {
-            var dummyItems = this.listPostService.GetAll();
-            var pager = new Pager(dummyItems.Count(), page);
-
-            var viewModel = new PagerViewModel
+            if (this.User.Identity.IsAuthenticated)
             {
-                Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager,
-            };
+                var test = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return this.View(viewModel);
+                var dummyItems = this.listPostService.GetAll(test);
+                var pager = new Pager(dummyItems.Count(), page);
 
-            //if (this.User.Identity.IsAuthenticated)
-            //{
-            //    var test = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //    var viewModel = this.listPostService.GetAll(test);
-            //    return this.View(viewModel);
-            //}
-            //else
-            //{
-            //    var viewModel = this.listPostService.GetAll();
-            //    return this.View(viewModel);
-            //}
+                var viewModel = new PagerViewModel
+                {
+                    Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    Pager = pager,
+                };
+
+                return this.View(viewModel);
+            }
+            else
+            {
+                var dummyItems = this.listPostService.GetAll();
+                var pager = new Pager(dummyItems.Count(), page);
+
+                var viewModel = new PagerViewModel
+                {
+                    Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    Pager = pager,
+                };
+
+                return this.View(viewModel);
+            }
         }
 
         [HttpPost]
