@@ -1,0 +1,23 @@
+{
+  "name": "TikKok",
+  "version": "1.0.0",
+  "description": "TODO:\r Add sharing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khanstan/TikKok.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khanstan/TikKok/issues"
+  },
+  "homepage": "https://github.com/khanstan/TikKok#readme",
+  "dependencies": {
+    "@microsoft/signalr": "^5.0.9"
+  }
+}

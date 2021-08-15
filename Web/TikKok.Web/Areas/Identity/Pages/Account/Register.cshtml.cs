@@ -28,9 +28,6 @@
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private List<string> backgroundColours = new List<string> { "339966", "3366CC", "CC33FF", "FF5050" };
-
-
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -85,9 +82,6 @@
         {
             var avatarString = string.Format("{0}{1}", username[0], username[1]).ToUpper();
 
-            var randomIndex = new Random().Next(0, this.backgroundColours.Count - 1);
-            var bgColour = this.backgroundColours[randomIndex];
-
             var bmp = new Bitmap(192, 192);
             var sf = new StringFormat();
             sf.Alignment = StringAlignment.Center;
@@ -99,7 +93,8 @@
             graphics.Clear(Color.Transparent);
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            using (Brush b = new SolidBrush(ColorTranslator.FromHtml("#" + bgColour)))
+            var random = new Random();
+            using (Brush b = new SolidBrush(ColorTranslator.FromHtml(string.Format("#{0:X6}", random.Next(0x1000000)))))
             {
                 graphics.FillEllipse(b, new Rectangle(0, 0, 192, 192));
             }

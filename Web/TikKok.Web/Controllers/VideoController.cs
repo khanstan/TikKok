@@ -3,24 +3,33 @@
     using System.IO;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
+    using TikKok.Data.Models;
     using TikKok.Services.Data;
+    using TikKok.Web.Hubs;
     using TikKok.Web.ViewModels.Video.Upload;
 
     public class VideoController : Controller
     {
         private readonly IVideoUploadService videoUploadService;
         private readonly IWebHostEnvironment environment;
+        private readonly IHubContext<NotificationHub, INotificationHubClient> notificationHubContext;
+        private readonly UserManager<ApplicationUser> manager;
 
         public VideoController(
         IVideoUploadService videoUploadService,
-        IWebHostEnvironment environment)
+        IWebHostEnvironment environment,
+        IHubContext<NotificationHub, INotificationHubClient> notificationHubContext,
+        UserManager<ApplicationUser> manager)
         {
             this.videoUploadService = videoUploadService;
             this.environment = environment;
+            this.notificationHubContext = notificationHubContext;
+            this.manager = manager;
         }
 
         public IActionResult Index()
@@ -40,7 +49,7 @@
         public async Task<IActionResult> Upload(UploadVideoInputModel input)
         {
             var user = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            var username = this.manager.GetUserAsync(this.HttpContext.User).Result.CredentialUsername;
             //FIX THIS!. Deletes 9:16 videos when not converted :(
 
             var path = await this.videoUploadService.CreateAsync(input, user, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
@@ -50,6 +59,7 @@
                 System.IO.File.Delete(path);
             }
 
+            await this.notificationHubContext.Clients.All.NotifyUploaded($"@{username} uploaded a new video.");
             this.TempData["Message"] = "Video added successfully.";
 
             return this.Redirect("/");

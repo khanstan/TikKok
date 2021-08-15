@@ -18,6 +18,7 @@
     @*<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />*@
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
 
+    <link type="text/css" rel="stylesheet" href="~/lib/toastr/dist/toastr.min.css" />
 
     <!-- Load Vue followed by BootstrapVue -->
     <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
@@ -200,11 +201,16 @@
             </div>
         </footer>*@
 
+
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/lib/signalr/signalr.js"></script>
+    <script src="~/js/notification.js"></script>
+    <script src="~/lib/toastr/dist/toastr.min.js"></script>
+
     @*<script src="~/dist/index.js"></script>*@
 
     @await this.RenderSectionAsync("Scripts", required: false)

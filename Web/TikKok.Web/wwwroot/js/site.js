@@ -53,10 +53,4 @@ function copyTextToClipboard(text) {
     });
 }
 
-var copyShare = document.querySelector('.copy-share');
-
-copyShare.addEventListener('click', function (event) {
-    console.log(this);
-    //copyTextToClipboard('Bob');
-});
 
