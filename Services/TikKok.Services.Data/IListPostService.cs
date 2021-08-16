@@ -11,6 +11,10 @@
 
         IQueryable<IndexViewModel> GetAll(string userId);
 
+        IndexViewModel GetSingle(string postId);
+
+        IndexViewModel GetSingle(string postId, string userId);
+
         Task DeleteAsync(string id);
     }
 }

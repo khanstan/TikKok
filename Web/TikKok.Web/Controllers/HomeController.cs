@@ -30,9 +30,9 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var test = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                var dummyItems = this.listPostService.GetAll(test);
+                var dummyItems = this.listPostService.GetAll(userId);
                 var pager = new Pager(dummyItems.Count(), page);
 
                 var viewModel = new PagerViewModel
@@ -54,6 +54,21 @@
                     Pager = pager,
                 };
 
+                return this.View(viewModel);
+            }
+        }
+
+        public IActionResult Post(string postId = "f7212977-5703-40e6-8f70-1123a0406a93")
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var viewModel = this.listPostService.GetSingle(postId, userId);
+                return this.View(viewModel);
+            }
+            else
+            {
+                var viewModel = this.listPostService.GetSingle(postId);
                 return this.View(viewModel);
             }
         }

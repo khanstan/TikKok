@@ -1,6 +1,5 @@
 ﻿namespace TikKok.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -60,20 +59,45 @@
             return postInfo;
         }
 
-        // public bool DidUserLikeThis(string postId, string userId)
-        // {
-        //    var like = this.likesRepository.All()
-        //        .FirstOrDefault(x => x.PostId == postId && x.UserId == userId);
+        public IndexViewModel GetSingle(string postId, string userId)
+        {
+            var postInfo = this.postsRepository.All().Where(x => x.Id == postId).Select(y => new IndexViewModel
+            {
+                PostId = y.Id,
+                CredentialUsername = y.Video.Uploader.CredentialUsername,
+                Description = y.Description,
+                Likes = y.Likes.Count(),
+                Comments = y.Comments.Count(),
+                Liked = y.Likes.Any(x => x.UserId == userId) ? "red" : "currentColor",
+                Path = y.Video.Path,
+                Extension = y.Video.Extension,
+                UploadDate = y.CreatedOn,
+                UploaderId = y.UserId,
+                Followed = y.User.Followers.Any(x => x.SourceUserId == userId) ? "unfollow" : "follow",
+            }).FirstOrDefault();
 
-        // if (like == null)
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        return true;
-        //    }
-        // }
+            return postInfo;
+        }
+
+        public IndexViewModel GetSingle(string postId)
+        {
+            var postInfo = this.postsRepository.All().Where(x => x.Id == postId).Select(y => new IndexViewModel
+            {
+                PostId = y.Id,
+                CredentialUsername = y.Video.Uploader.CredentialUsername,
+                Description = y.Description,
+                Likes = y.Likes.Count(),
+                Comments = y.Comments.Count(),
+                Liked = "currentColor",
+                Path = y.Video.Path,
+                Extension = y.Video.Extension,
+                UploadDate = y.CreatedOn,
+                UploaderId = y.Video.Uploader.UserName,
+            }).FirstOrDefault();
+
+            return postInfo;
+        }
+
         public async Task DeleteAsync(string postId)
         {
             var video = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);

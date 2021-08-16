@@ -34,9 +34,9 @@ function fallbackCopyTextToClipboard(text) {
     try {
         var successful = document.execCommand('copy');
         var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Fallback: Copying text command was ' + msg);
+        toastr.info('Fallback: Copying text command was ' + msg);
     } catch (err) {
-        console.error('Fallback: Oops, unable to copy', err);
+        toastr.info('Fallback: Oops, unable to copy', err);
     }
 
     document.body.removeChild(textArea);
@@ -47,9 +47,11 @@ function copyTextToClipboard(text) {
         return;
     }
     navigator.clipboard.writeText(text).then(function () {
+        toastr.info('Async: Copying to clipboard was successful!');
+
         console.log('Async: Copying to clipboard was successful!');
     }, function (err) {
-        console.error('Async: Could not copy text: ', err);
+        toastr.info('Async: Could not copy text: ', err);
     });
 }
 
