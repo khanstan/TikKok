@@ -1,6 +1,3 @@
-TODO:
-Add sharing.
+My final SoftUni project.
 
-Work on UserBlocks, Inbox!
-Add Messaging.
-Work on ffmpeg to convert uploaded videos to mp4.
+Azure link: https://tikkokweb20210812152129.azurewebsites.net/

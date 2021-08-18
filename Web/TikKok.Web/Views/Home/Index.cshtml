@@ -60,7 +60,7 @@
                         <span class="post-date">@post.UploadDate</span>
                     </div>
                     <div class="card-body">
-                        <video class="video" controls loop>
+                        <video class="video" controls>
                             <source src="@post.Path" type="video/mp4">
                         </video>
                     </div>
@@ -93,15 +93,16 @@
 
 
                     </div>
-                    @if (this.User.IsInRole("Admin"))
-                    {
                     <div class="card-footer">
                         <p class="card-text">@post.Description</p>
+
+                        @if (this.User.IsInRole("Admin"))
+                    {
                         <form method="post" asp-action="Delete" id="deleteForm" asp-route-id="@post.PostId">
                             <button type="submit"> Delete </button>
                         </form>
-                    </div>
                     }
+                    </div>
                 </div>
             </div>
         }
