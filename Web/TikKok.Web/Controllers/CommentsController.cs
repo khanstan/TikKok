@@ -18,6 +18,7 @@
             this.commentsService = commentsService;
         }
 
+        [Authorize]
         public IActionResult Index(string id)
         {
             if (id == null)

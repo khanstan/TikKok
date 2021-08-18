@@ -89,15 +89,17 @@
         }
 
 
+
+
         $("#addNewCommentBtn").click(function (e) {
-            e.preventDefault();
-            var data = {
+                    e.preventDefault();
+                    var data = {
                 ParentId: 0,
                 CommentText: $("#commentInput").val(),
                 PostId: "@ViewBag.PostId",
             }
             $.when(addNewComment(data)).then(function (response) {
-                var commentHtml = `
+                    var commentHtml = `
         <div class="media">
                                     <img class="mr-3 rounded-circle" alt="User avatar" src="@((await SignInManager.UserManager.GetUserAsync(this.User)).Avatar)" />
 
@@ -113,10 +115,11 @@
 `;
                 $("#commentsContainer").prepend(commentHtml);
                 $("#commentInput").val('');
-            }).fail(function (err) {
-                alert(err);
-            });
+        }).fail(function (err) {
+            alert(err);
         });
+        });
+
     </script>
 
 </body>
