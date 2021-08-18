@@ -35,7 +35,6 @@
         public async Task<string> CreateAsync(UploadVideoInputModel input, string userId, string videoPath, string rootPath)
         {
             //FFmpegDownloader.GetLatestVersion(FFmpegVersion.Official);
-            // /wwwroot/videos/videos/jhdsi-343g3h453-=g34g.jpg
             FFmpeg.SetExecutablesPath(rootPath);
             Directory.CreateDirectory($"{videoPath}/videos/");
 

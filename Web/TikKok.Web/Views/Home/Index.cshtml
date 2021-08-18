@@ -37,25 +37,25 @@
                     <div class="card-header">
                         @if (SignInManager.UserManager.GetUserId(this.User) == post.UploaderId)
                         {
-                            <span class="post-title text-danger">
-                                <a href="#" style="color: inherit">
-                                    @@@post.CredentialUsername
-                                </a>
-                            </span>
+                        <span class="post-title text-danger">
+                            <a href="#" style="color: inherit">
+                                @@@post.CredentialUsername
+                            </a>
+                        </span>
                         }
                         else
                         {
-                            <span class="post-title">
-                                <a href="#" style="color: inherit">
-                                    @@@post.CredentialUsername
-                                </a>
-                                @if (this.SignInManager.IsSignedIn(this.User))
+                        <span class="post-title">
+                            <a href="#" style="color: inherit">
+                                @@@post.CredentialUsername
+                            </a>
+                            @if (this.SignInManager.IsSignedIn(this.User))
                                 {
-                                    <follow-button uploader="@post.UploaderId" status="@post.Followed"></follow-button>
+                            <follow-button uploader="@post.UploaderId" status="@post.Followed"></follow-button>
 
                                 }
 
-                            </span>
+                        </span>
                         }
                         <span class="post-date">@post.UploadDate</span>
                     </div>
@@ -93,15 +93,15 @@
 
 
                     </div>
-
-                    <comment-grid></comment-grid>
-
+                    @if (this.User.IsInRole("Admin"))
+                    {
                     <div class="card-footer">
                         <p class="card-text">@post.Description</p>
                         <form method="post" asp-action="Delete" id="deleteForm" asp-route-id="@post.PostId">
                             <button type="submit"> Delete </button>
                         </form>
                     </div>
+                    }
                 </div>
             </div>
         }

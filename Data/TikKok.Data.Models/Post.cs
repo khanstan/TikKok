@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using TikKok.Data.Common.Models;
 
@@ -11,7 +12,6 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.Comments = new HashSet<Comment>();
-            this.Tags = new HashSet<Tag>();
             this.Likes = new HashSet<Like>();
         }
 
@@ -19,19 +19,15 @@
 
         public virtual Video Video { get; set; }
 
+        [MaxLength(1024)]
         public string Description { get; set; }
 
-        public int Shares { get; set; }
-
         public virtual ICollection<Comment> Comments { get; set; }
-
-        public virtual ICollection<Tag> Tags { get; set; }
 
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
-
     }
 }

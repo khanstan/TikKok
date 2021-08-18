@@ -50,7 +50,6 @@
         {
             var user = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var username = this.manager.GetUserAsync(this.HttpContext.User).Result.CredentialUsername;
-            //FIX THIS!. Deletes 9:16 videos when not converted :(
 
             var path = await this.videoUploadService.CreateAsync(input, user, $"{this.environment.WebRootPath}/videos", $"{this.environment.ContentRootPath}");
 
